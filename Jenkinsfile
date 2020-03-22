@@ -33,4 +33,11 @@ node{
     {
         sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" abninder/test-image'
     }
+    post {
+        always {
+            echo 'stopping and removing running containers ...'
+            sh 'docker stop $(docker ps -q)'
+            sh 'docker rm $(docker ps -a -q)'
+        }
+    }
 }
