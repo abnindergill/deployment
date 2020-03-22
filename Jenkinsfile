@@ -33,7 +33,7 @@ node{
     
     stage('Delpoy application')
     {
-         def containerID = sh 'docker inspect --format="{{.Id}}" test-image:latest'
+         def containerID = sh 'docker inspect --format="{{.Id}}" abninder/test-image'
          sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" abninder/test-image'
     }
 }
