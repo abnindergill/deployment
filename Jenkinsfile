@@ -36,7 +36,7 @@ node{
     
     stage('Delpoy application')
     {
-         sh 'docker inspect --format='{{.Container }}' abninder/test-image'
+         sh 'docker inspect --format="{{.Container }}" abninder/test-image'
          def containerID=$?
          echo "container id is: ${containerID}"
          sh 'docker stop ${containerID}'
