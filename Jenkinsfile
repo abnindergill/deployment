@@ -1,7 +1,8 @@
 node{
     def customImage
     def mvn_home
-  
+
+    options { buildDiscarder(logRotator(numToKeepStr: '5')) }
     stage('Initialize')
     {
         def dockerHome = tool 'docker'
