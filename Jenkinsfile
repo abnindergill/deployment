@@ -36,7 +36,7 @@ node{
     {
          containerID = sh 'docker ps -aqf name=test-image:latest'
          if( $containerID !=null){
-            echo 'container id is $containerID'
+            echo 'container id'
          }
          sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" abninder/test-image'
     }
