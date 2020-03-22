@@ -21,7 +21,8 @@ node{
     stage('Build image'){
         sh ' docker build -t abninder/test-image . '
     }
-    
+
+    /*
     stage('Push image')
     {
         withCredentials([string(credentialsId: 'dockerLog', variable: 'DockerHubLogin')]) {
@@ -29,6 +30,7 @@ node{
         } 
         sh 'docker push abninder/test-image'
     }
+    */
     
     stage('Delpoy application')
     {
