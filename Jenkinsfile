@@ -3,12 +3,13 @@ properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', 
 node{
     def customImage
     def mvn_home
+    def docker
 
     stage('Initialize')
     {
-        def dockerHome = tool 'docker'
+        docker = tool 'docker'
         mvn_home = tool 'maven'
-        env.PATH = "${dockerHome}/bin:${mvn_home}/bin:${env.PATH}"
+        env.PATH = "${docker}/bin:${mvn_home}/bin:${env.PATH}"
     }
    
     stage('SCM Checkout'){
