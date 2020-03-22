@@ -1,7 +1,6 @@
 node{
     def customImage
     def mvn_home
-    def statusCode
   
     stage('Initialize')
     {
@@ -32,13 +31,6 @@ node{
     
     stage('Delpoy application')
     {
-         statusCode = sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" abninder/test-image'
-         if [ $statusCode -ne 0 ]; then
-            echo 'stopping and removing running containers ...'
-            sh 'docker stop $(docker ps -q)'
-            sh 'docker rm $(docker ps -a -q)'
-         fi
-         exit $statusCode
+         sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" abninder/test-image'
     }
-
 }
