@@ -35,7 +35,9 @@ node{
     stage('Delpoy application')
     {
          containerID = sh 'docker ps -aqf name=test-image:latest'
-         echo 'container id is' + $containerID
+         if( $containerID !=null){
+            echo 'container id is $containerID'
+         }
          sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" abninder/test-image'
     }
 }
