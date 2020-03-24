@@ -17,6 +17,7 @@
     <properties>
         <java.version>1.8</java.version>
         <type>pom</type>
+        <target_dir>${project.build.directory}/api</target_dir>
     </properties>
 
     <dependencies>

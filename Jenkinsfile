@@ -36,8 +36,7 @@ node{
     
     stage('Delpoy application')
     {
-         dir("target/api")
-         sh './docker-stop.sh'
+         sh readMavenPom().properties['target_dir']/docker-stop.sh
          sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" abninder/test-image'
     }
 }
