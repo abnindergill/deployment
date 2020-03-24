@@ -76,6 +76,13 @@
                                         <include>application.yml</include>
                                     </includes>
                                 </resource>
+                                <resource>
+                                    <directory>${basedir}/src/main/scripts</directory>
+                                    <filtering>false</filtering>
+                                    <includes>
+                                        <include>docker-stop.sh</include>
+                                    </includes>
+                                </resource>
                             </resources>
                         </configuration>
                     </execution>

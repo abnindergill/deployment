@@ -36,9 +36,8 @@ node{
     
     stage('Delpoy application')
     {
-         def containerID = sh 'docker inspect --format="{{.Container }}" abninder/test-image'
-         echo 'container id is ${containerID}'
-         sh 'docker stop ${containerID}'
+         dir("target/api")
+         sh './docker-stop.sh'
          sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" abninder/test-image'
     }
 }
