@@ -41,7 +41,7 @@ node{
          stopScript = "docker-stop.sh"
          filePath="${scriptDir}${stopScript}"
          echo "full path is ${filePath}"
-         sh $filepath
+         sh '$filepath'
          sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" abninder/test-image'
 
     }
