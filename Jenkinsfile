@@ -19,7 +19,7 @@ node{
     stage('Compile-Package'){
         sh "${mvn_home}/bin/mvn package"
     }
-   
+
     stage('Build image'){
         sh ' docker build -t abninder/test-image . '
     }
@@ -36,13 +36,10 @@ node{
     
     stage('Delpoy application')
     {
-         def scriptDir = readMavenPom().properties['target_dir']
-         echo "target directory is ${scriptDir}"
          stopScript = "/target/api/docker-stop.sh"
          filePath="${WORKSPACE}${stopScript}"
          echo "full path is ${filePath}"
          sh '$filepath'
-         sh 'sleep 10'
          sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" abninder/test-image'
 
     }
