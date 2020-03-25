@@ -1,7 +1,6 @@
 properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '3']]])
 
 node{
-    def customImage
     def mvn_home
     def docker
 
@@ -32,7 +31,7 @@ node{
         sh 'docker push abninder/test-image'
     }
     
-    stage('Delpoy application')
+    stage('Deploy application')
     {
          //kill existing container if running before deploying new one
          sh '$WORKSPACE/target/api/docker-stop.sh'
