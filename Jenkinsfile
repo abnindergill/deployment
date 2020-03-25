@@ -38,10 +38,8 @@ node{
     {
          def scriptDir = readMavenPom().properties['target_dir']
          echo "target directory is ${scriptDir}"
-         stopScript = "docker-stop.sh"
-         filePath="${scriptDir}${stopScript}"
-         echo "workspace is ${WORKSPACE}"
-         echo "jenkins home is ${JENKINS_HOME}"
+         stopScript = "/target/api/docker-stop.sh"
+         filePath="${WORKSPACE}${stopScript}"
          sh '$filepath'
          sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" abninder/test-image'
 
