@@ -24,7 +24,6 @@ node{
         sh ' docker build -t abninder/test-image . '
     }
 
-    /*
     stage('Push image')
     {
         withCredentials([string(credentialsId: 'dockerLog', variable: 'DockerHubLogin')]) {
@@ -32,11 +31,10 @@ node{
         } 
         sh 'docker push abninder/test-image'
     }
-    */
     
     stage('Delpoy application')
     {
-         stopScript = "/target/api"
+         //kill existing container if running before deploying new one
          sh '$WORKSPACE/target/api/docker-stop.sh'
          sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" abninder/test-image'
     }
