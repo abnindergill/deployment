@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "HELLO WORLD" > /tmp/testfile
 echo "checking if container is running ...." > /tmp/testfile
 
 containerId=$(docker ps | grep 'abninder/test-image' | awk '{ print $1 }')
