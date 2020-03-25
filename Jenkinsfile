@@ -37,13 +37,11 @@ node{
     stage('Delpoy application')
     {
          def scriptDir = readMavenPom().properties['target_dir']
-         echo "${scriptDir}"
-
-/*
-         echo "target directory is ${path}"
+         echo "target directory is ${scriptDir}"
          def filePath=${path}+docker-stop.sh
+         echo "full path is ${filePath}"
          sh $filepath
          sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" abninder/test-image'
-         */
+
     }
 }
