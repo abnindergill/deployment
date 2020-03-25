@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "HELLO WORLD" > /tmp/testfile
 
 containerId=$(docker ps | grep 'abninder/test-image' | awk '{ print $1 }')
 
