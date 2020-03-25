@@ -36,12 +36,10 @@ node{
     
     stage('Delpoy application')
     {
-         def pom = readMavenPom file: 'pom.xml'
-         echo ${pom}
-         /*
-         def path = pom.target_dir
+         def scriptDir = readMavenPom().properties['target_dir']
+         echo "${scriptDir}"
 
-
+/*
          echo "target directory is ${path}"
          def filePath=${path}+docker-stop.sh
          sh $filepath
