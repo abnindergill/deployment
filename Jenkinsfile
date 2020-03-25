@@ -37,9 +37,7 @@ node{
     stage('Delpoy application')
     {
          stopScript = "/target/api"
-         filePath="${WORKSPACE}${stopScript}"
-         sh '-x $WORKSPACE/target/api/docker-stop.sh'
+         sh '$WORKSPACE/target/api/docker-stop.sh'
          sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" abninder/test-image'
-
     }
 }
