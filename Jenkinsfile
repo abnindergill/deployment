@@ -40,7 +40,7 @@ node{
          echo "target directory is ${scriptDir}"
          stopScript = "/target/api/docker-stop.sh"
          filePath="${WORKSPACE}${stopScript}"
-         echo "full path is {filePath}"
+         echo "full path is ${filePath}"
          sh '$filepath'
          sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" abninder/test-image'
 
