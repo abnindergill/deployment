@@ -38,7 +38,7 @@ node{
     {
          def scriptDir = readMavenPom().properties['target_dir']
          echo "target directory is ${scriptDir}"
-         def filePath=${path}+docker-stop.sh
+         def filePath=${scriptDir}+docker-stop.sh
          echo "full path is ${filePath}"
          sh $filepath
          sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" abninder/test-image'
