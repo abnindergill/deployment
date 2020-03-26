@@ -36,8 +36,8 @@ node{
          //kill existing container for this image if running before deploying new one
          sh '$WORKSPACE/target/api/docker-stop.sh abninder/test-image'
 
-         //remove all exited containers
-         sh 'docker ps -a --filter status=exited --format {{.ID}} | xargs docker rm'
+         //tidy up by removing all stopped containers
+         sh 'docker container prune -f'
 
          //start the new container
          sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" abninder/test-image'
