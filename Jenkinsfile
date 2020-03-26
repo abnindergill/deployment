@@ -20,6 +20,13 @@ node{
     }
 
     stage('Build image'){
+
+        //kill existing container for this image if running before deploying new one
+        sh '$WORKSPACE/target/api/docker-stop.sh abninder/test-image'
+
+        //tidy up by removing all stopped containers
+        sh 'docker container prune -f'
+
         sh ' docker build -t abninder/test-image . '
     }
 
@@ -31,14 +38,7 @@ node{
         sh 'docker push abninder/test-image'
     }
     
-    stage('Deploy application')
-    {
-         //kill existing container for this image if running before deploying new one
-         sh '$WORKSPACE/target/api/docker-stop.sh abninder/test-image'
-
-         //tidy up by removing all stopped containers
-         sh 'docker container prune -f'
-
+    stage('Deploy application') {
          //start the new container
          sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" abninder/test-image'
     }
