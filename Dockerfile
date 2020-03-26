@@ -6,4 +6,4 @@ RUN mkdir -p /src/main/app
 COPY target/api/hello-world.jar /src/main/app
 COPY target/api/application.yml /src/main/app
 
-ENTRYPOINT ["java","-DServer.port=${LISTEN_PORT}", "-jar", "/hello-world.jar"]
+ENTRYPOINT ["java","-DServer.port=${LISTEN_PORT}", "-jar", "/src/main/app/hello-world.jar"]
