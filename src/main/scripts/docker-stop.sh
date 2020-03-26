@@ -1,6 +1,8 @@
 #!/bin/bash
 
-containerId=$(docker ps | grep 'abninder/test-image' | awk '{ print $1 }')
+imageName="$1"
+
+containerId=$(docker ps | grep "${imageName}" | awk '{ print $1 }')
 echo "checking if container is running ...." >> /tmp/testfile
 echo "container id $containerId found" >> /tmp/testfile
 

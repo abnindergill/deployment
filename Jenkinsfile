@@ -33,8 +33,13 @@ node{
     
     stage('Deploy application')
     {
-         //kill existing container if running before deploying new one
-         sh '$WORKSPACE/target/api/docker-stop.sh'
+         //kill existing container for this image if running before deploying new one
+         sh '$WORKSPACE/target/api/docker-stop.sh abninder/test-image'
+
+         //remove all exited containers
+         sh 'docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs docker rm'
+
+         //start the new container
          sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" abninder/test-image'
     }
 }
