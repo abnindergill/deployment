@@ -1,8 +1,9 @@
 FROM openjdk:8-jdk-alpine
-ARG JAR_FILE=target/api/hello-world.jar
-ARG YML_FILE=target/api/application.yml
 ENV LISTEN_PORT=8082
 
-COPY ${JAR_FILE} hello-world.jar
-COPY ${YML_FILE} application.yml
+RUN mkdir -p /src/main/app
+
+COPY target/api/hello-world.jar /src/main/app
+COPY target/api/application.yml /src/main/app
+
 ENTRYPOINT ["java","-DServer.port=${LISTEN_PORT}", "-jar", "/hello-world.jar"]
