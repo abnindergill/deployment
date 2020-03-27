@@ -23,14 +23,14 @@ node{
 
     stage('clean-up'){
         //kill existing container for this image if its running before building new one
-        sh '$WORKSPACE/target/api/docker-stop.sh ${imageName}'
+        sh "$WORKSPACE/target/api/docker-stop.sh ${imageName}"
 
         //tidy up by removing all stopped containers
         sh 'docker container prune -f'
     }
 
     stage('Build image'){
-        sh 'docker build -t ${imageName} . '
+        sh "docker build -t ${imageName} . "
     }
 
     stage('Push image')
@@ -38,12 +38,12 @@ node{
         withCredentials([string(credentialsId: 'dockerLog', variable: 'DockerHubLogin')]) {
              sh "docker login -u abninder -p ${DockerHubLogin}"
         } 
-        sh 'docker push ${imageName}'
+        sh "docker push ${imageName}"
     }
     
     stage('Deploy and start application')
     {
          //start the container based on the new image
-         sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" ${imageName}'
+         sh "docker run -p 8082:8085 -e LISTEN_PORT=8085 ${imageName}"
     }
 }
