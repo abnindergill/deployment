@@ -1,6 +1,7 @@
 #!/bin/bash
 
 imageName="$1"
+echo "image name is ${imageName}"
 
 containerId=$(docker ps | grep "${imageName}" | awk '{ print $1 }')
 echo "checking if container is running ...." >> /tmp/testfile
