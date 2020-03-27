@@ -1,9 +1,13 @@
-FROM openjdk:8-jdk-alpine
-ENV LISTEN_PORT=8082
+FROM abninder/test-image
+ENV LISTEN_PORT=8089
 
-RUN mkdir -p /src/main/app
+ENV dir="/src/main/app/new/"
+ENV path=${dir}hello-world.jar
 
-COPY target/api/hello-world.jar /src/main/app
-COPY target/api/application.yml /src/main/app
+RUN mkdir -p ${dir}
+COPY target/api/hello-world.jar ${dir}
+COPY target/api/application.yml ${dir}
+COPY target/api/app.sh ${dir}
 
-ENTRYPOINT ["java","-DServer.port=${LISTEN_PORT}", "-jar", "/src/main/app/hello-world.jar"]
+WORKDIR ${dir}
+CMD place [./app.sh ${LISTEN_PORT} ${path}]

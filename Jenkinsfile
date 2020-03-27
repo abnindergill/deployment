@@ -3,11 +3,13 @@ properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', 
 node{
     def mvn_home
     def docker
+    def imageName
 
     stage('Initialize')
     {
         docker = tool 'docker'
         mvn_home = tool 'maven'
+        imageName="test-image-new"
         env.PATH = "${docker}/bin:${mvn_home}/bin:${env.PATH}"
     }
    
@@ -19,15 +21,16 @@ node{
         sh "${mvn_home}/bin/mvn package"
     }
 
-    stage('Build image'){
-
-        //kill existing container for this image if running before deploying new one
-        sh '$WORKSPACE/target/api/docker-stop.sh abninder/test-image'
+    stage('clean-up'){
+        //kill existing container for this image if its running before building new one
+        sh '$WORKSPACE/target/api/docker-stop.sh ${imageName}'
 
         //tidy up by removing all stopped containers
         sh 'docker container prune -f'
+    }
 
-        sh ' docker build -t abninder/test-image . '
+    stage('Build image'){
+        sh 'docker build -t ${imageName} . '
     }
 
     stage('Push image')
@@ -35,12 +38,12 @@ node{
         withCredentials([string(credentialsId: 'dockerLog', variable: 'DockerHubLogin')]) {
              sh "docker login -u abninder -p ${DockerHubLogin}"
         } 
-        sh 'docker push abninder/test-image'
+        sh 'docker push ${imageName}'
     }
     
-    stage('Deploy application')
+    stage('Deploy and start application')
     {
-         //start the new container
-         sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" abninder/test-image'
+         //start the container based on the new image
+         sh 'docker run -p 8082:8085 -e "LISTEN_PORT=8085" ${imageName}'
     }
 }

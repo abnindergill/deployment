@@ -81,7 +81,7 @@
                                     <directory>${basedir}/src/main/scripts</directory>
                                     <filtering>false</filtering>
                                     <includes>
-                                        <include>docker-stop.sh</include>
+                                        <include>*.sh</include>
                                     </includes>
                                 </resource>
                             </resources>
