@@ -23,6 +23,7 @@ node{
 
     stage('clean-up'){
         //kill existing container for this image if its running before building new one
+        sh 'chmod 777 $WORKSPACE/target/api/docker-stop.sh'
         sh "$WORKSPACE/target/api/docker-stop.sh ${imageName}"
 
         //tidy up by removing all stopped containers
