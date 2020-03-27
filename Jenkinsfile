@@ -9,7 +9,7 @@ node{
     {
         docker = tool 'docker'
         mvn_home = tool 'maven'
-        imageName="test-image-new"
+        imageName="abninder/test-image-new"
         env.PATH = "${docker}/bin:${mvn_home}/bin:${env.PATH}"
     }
    
