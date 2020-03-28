@@ -41,10 +41,18 @@ node{
         } 
         sh "docker push ${imageName}"
     }
-    
-    stage('Deploy and start application')
-    {
-         //start the container based on the new image
-         sh "docker run -p 8082:8085 -e LISTEN_PORT=8085 ${imageName}"
+
+
+  //  stage('Deploy and start application')
+ //   {
+   //      //start the container based on the new image
+   //      sh "docker run -p 8082:8085 -e LISTEN_PORT=8085 ${imageName}"
+  //  }
+
+    stage('Deploy to ec2'){
+        sshagent(['ec2-instance']) {
+            def dockerRun = "docker run -p 8082:8085 -e LISTEN_PORT=8085 ${imageName}"
+            sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.30.221 ${dockerRun}"
+        }
     }
 }
