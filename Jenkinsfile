@@ -23,8 +23,9 @@ node{
 
     stage('clean-up'){
         //kill existing container for this image if its running before building new one
-        sh 'chmod 777 $WORKSPACE/target/api/docker-stop.sh'
-        sh "$WORKSPACE/target/api/docker-stop.sh ${imageName}"
+        //sh 'chmod 777 $WORKSPACE/target/api/docker-stop.sh'
+       //
+        // sh "$WORKSPACE/target/api/docker-stop.sh ${imageName}"
 
         //tidy up by removing all stopped containers
         sh 'docker container prune -f'
@@ -51,6 +52,10 @@ node{
 
     stage('Deploy to ec2'){
         sshagent(['ec2-instance']) {
+            sh 'chmod 777 $WORKSPACE/target/api/docker-stop.sh'
+            def stopCommand= "$WORKSPACE/target/api/docker-stop.sh ${imageName}"
+
+            sh "ssh -o StrictHostKeyChecking=no ec2-user@35.171.176.196 ${stopCommand}"
             def dockerRun = "sudo docker run -p 8082:8085 -e LISTEN_PORT=8085 ${imageName}"
             sh "ssh -o StrictHostKeyChecking=no ec2-user@35.171.176.196 ${dockerRun}"
         }
