@@ -51,7 +51,7 @@ node{
 
     stage('Deploy to ec2'){
         sshagent(['ec2-instance']) {
-            def dockerRun = "sudo docker run -p 8082:8085 -e LISTEN_PORT=8085 ${imageName}"
+            def dockerRun = "sudo docker run -p 0000:8085 -e LISTEN_PORT=8085 ${imageName}"
             sh "ssh -o StrictHostKeyChecking=no ec2-user@35.171.176.196 ${dockerRun}"
         }
     }
