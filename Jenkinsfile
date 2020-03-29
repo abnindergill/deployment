@@ -4,11 +4,23 @@ node{
     def mvn_home
     def docker
     def imageName
-    def stopTag
+    def lastSuccessfulBuildID=0
 
+    script{
+        script{
+            def build = currentBuild.previousBuild
+            while (build != null) {
+                if (build.result == "SUCCESS")
+                {
+                    lastSuccessfulBuildID = build.id as Integer
+                    break
+                }
+                build = build.previousBuild
+            }
+        }
+    }
     stage('Initialize')
     {
-        stopTag = 'wget -qO- http://localhost:8080/job/Helloworld/lastSuccessfulBuild/buildNumber'
         docker = tool 'docker'
         mvn_home = tool 'maven'
         imageName="abninder/hello-world-image"
@@ -49,7 +61,7 @@ node{
         sh "chmod 777 ${scriptsSourcePath}"
         sh "scp -i ${permKey} ${scriptsSourcePath} ${ec2Instance}:${ec2ScriptDestinationFolder}"
 
-        sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder}/docker-stop.sh ${imageName}:${stopTag}"
+        sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder}/docker-stop.sh ${imageName}:${lastSuccessfulBuildID}"
         sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder}/docker-fetch-image.sh ${imageName}:${BUILD_NUMBER}"
 
         def dockerRun = "sudo docker run -p 8082:8085 -e LISTEN_PORT=8085 ${imageName}:${BUILD_NUMBER}"
