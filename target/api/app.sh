@@ -1,4 +1,3 @@
-#!/bin/bash
 
 LISTEN_PORT="$1"
 PATH="$2"

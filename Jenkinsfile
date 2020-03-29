@@ -40,13 +40,16 @@ node{
 
     stage('Deploy to ec2'){
         def stopScript = "${WORKSPACE}/target/api/docker-stop.sh"
-        def ec2ScriptDestinationFolder = "/home/ec2-user/scripts/docker-stop.sh"
+        def scriptsPath = "${WORKSPACE}/target/api/*.sh"
+        def ec2ScriptDestinationFolder = "/home/ec2-user/scripts"
         def permKey = "/Users/abninder/aws_credentials/docker-app.pem"
         def ec2Instance = " ec2-user@ec2-35-171-176-196.compute-1.amazonaws.com"
 
-        sh "chmod 777 ${stopScript}"
-        sh "scp -i ${permKey} ${stopScript} ${ec2Instance}:${ec2ScriptDestinationFolder}"
-        sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder} ${imageName}"
+        sh "chmod 777 ${scriptsPath}"
+        sh "scp -i ${permKey} ${stopScript} ${ec2Instance}:${ec2ScriptDestinationFolder}/*.sh"
+
+        sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder} docker-stop.sh ${imageName}"
+        sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder} docker-fetch-image.sh ${imageName}"
 
         def dockerRun = "sudo docker run -p 8082:8085 -e LISTEN_PORT=8085 ${imageName}"
         sh "ssh -i ${permKey} ${ec2Instance} ${dockerRun}"
