@@ -46,7 +46,7 @@ node{
         def ec2Instance = " ec2-user@ec2-35-171-176-196.compute-1.amazonaws.com"
 
         sh "chmod 777 ${scriptsPath}"
-        sh "scp -i ${permKey} ${stopScript} ${ec2Instance}:${ec2ScriptDestinationFolder}/*.sh"
+        sh "scp -i ${permKey} ${scriptsPath} ${ec2Instance}:${ec2ScriptDestinationFolder}"
 
         sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder} docker-stop.sh ${imageName}"
         sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder} docker-fetch-image.sh ${imageName}"
