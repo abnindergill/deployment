@@ -27,7 +27,7 @@ node{
     }
 
     stage('Build image'){
-        sh "docker build -t ${imageName}:${BUILD_NUMBER} . "
+        sh "docker build -t ${imageName}:${BUILD_NUMBER} ${WORKSPACE} "
     }
 
     stage('Push image')
