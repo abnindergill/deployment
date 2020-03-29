@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-alpine
+FROM maven:3.5.2-jdk-8-alpine AS MAVEN_BUILD
 
 EXPOSE 8085
 WORKDIR /app
