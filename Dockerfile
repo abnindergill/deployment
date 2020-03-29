@@ -1,7 +1,8 @@
-FROM maven:3.5.2-jdk-8-alpine AS MAVEN_BUILD
+FROM maven as build
 
-COPY pom.xml /build/
-COPY src /build/src/
-WORKDIR /build/
+COPY ./src /app/
+RUN mkdir /app/target/
+
+WORKDIR /app/
 RUN mvn clean install
 
