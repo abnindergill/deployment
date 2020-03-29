@@ -9,7 +9,7 @@ node{
     {
         docker = tool 'docker'
         mvn_home = tool 'maven'
-        imageName="abninder/test-image-new"
+        imageName="abninder/test-image-latest"
         env.PATH = "${docker}/bin:${mvn_home}/bin:${env.PATH}"
     }
    
@@ -18,7 +18,7 @@ node{
     }
     
     stage('Compile-Package'){
-        sh "${mvn_home}/bin/mvn package"
+        sh "${mvn_home}/bin/mvn clean install"
     }
 
     stage('clean-up'){
@@ -39,13 +39,13 @@ node{
     }
 
     stage('Deploy to ec2'){
-        def scriptsPath = "${WORKSPACE}/target/api/*.sh"
+        def scriptsSourcePath = "${WORKSPACE}/target/api/docker*.sh"
         def ec2ScriptDestinationFolder = "/home/ec2-user/scripts"
         def permKey = "/Users/abninder/aws_credentials/docker-app.pem"
         def ec2Instance = " ec2-user@ec2-35-171-176-196.compute-1.amazonaws.com"
 
-        sh "chmod 777 ${scriptsPath}"
-        sh "scp -i ${permKey} ${scriptsPath} ${ec2Instance}:${ec2ScriptDestinationFolder}"
+        sh "chmod 777 ${scriptsSourcePath}"
+        sh "scp -i ${permKey} ${scriptsSourcePath} ${ec2Instance}:${ec2ScriptDestinationFolder}"
 
         sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder}/docker-stop.sh ${imageName}"
         sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder}/docker-fetch-image.sh ${imageName}"
