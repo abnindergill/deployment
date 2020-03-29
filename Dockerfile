@@ -1,13 +1,15 @@
+FROM maven:3.5.2-jdk-8-alpine AS MAVEN_BUILD
+
+MAINTAINER Abninder Gill
+COPY pom.xml /build/
+COPY src /build/src/
+WORKDIR /build/
+RUN mvn package
+
 FROM openjdk:8-jre-alpine
-ENV LISTEN_PORT=8089
+
 EXPOSE 8085
+WORKDIR /app
+COPY --from=MAVEN_BUILD /build/target/api/hello-world.jar /app/
 
-ENV dir="/src/main/app/new/"
-ENV path=${dir}hello-world.jar
-
-RUN mkdir -p ${dir}
-ADD target/api/hello-world.jar ${dir}
-COPY target/api/application.yml ${dir}
-COPY target/api/app.sh ${dir}
-
-CMD ["java", "-jar", "-DServer.port=8085","/src/main/app/new/hello-world.jar"]
+CMD ["java", "-jar", "-DServer.port=8085","hello-world.jar"]
