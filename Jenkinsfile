@@ -43,8 +43,8 @@ node{
             def stopScript = "${WORKSPACE}/target/api/docker-stop.sh"
             def ec2ScriptFolder = "/home/ec2-user/scripts/docker-stop.sh"
             sh "chmod 777 ${stopScript}"
-            sh "scp ${stopScript} ${ec2ScriptFolder}"
-            sh "ssh -o StrictHostKeyChecking=no ec2-user@35.171.176.196 ${ec2ScriptFolder}"
+            sh "scp ${stopScript} -o StrictHostKeyChecking=no ec2-user@35.171.176.196:${ec2ScriptFolder}"
+            sh "ssh -o StrictHostKeyChecking=no ec2-user@35.171.176.196 ${ec2ScriptFolder} ${imageName}"
 
             def dockerRun = "sudo docker run -p 8082:8085 -e LISTEN_PORT=8085 ${imageName}"
             sh "ssh -o StrictHostKeyChecking=no ec2-user@35.171.176.196 ${dockerRun}"
