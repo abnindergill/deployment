@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:8-jre-alpine
 ENV LISTEN_PORT=8089
 
 ENV dir="/src/main/app/new/"
@@ -10,4 +10,4 @@ COPY target/api/application.yml ${dir}
 COPY target/api/app.sh ${dir}
 
 WORKDIR ${dir}
-CMD ["./app.sh", "${LISTEN_PORT}","${path}"]
+CMD ["java", "-jar", "/hello-world.jar"]
