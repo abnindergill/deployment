@@ -13,6 +13,6 @@ if [ -n "${containerId}" ]; then
     echo "======================================================"
     sudo docker kill "${containerId}"
 fi
-
+sudo docker container prune -f
 
 
