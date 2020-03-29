@@ -46,7 +46,7 @@ node{
 
         sh "chmod 777 ${stopScript}"
         sh "scp -i ${permKey} ${stopScript} ${ec2Instance}:${ec2ScriptDestinationFolder}"
-        sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptFolder} ${imageName}"
+        sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder} ${imageName}"
 
         def dockerRun = "sudo docker run -p 8082:8085 -e LISTEN_PORT=8085 ${imageName}"
         sh "ssh ${permKey} ${ec2Instance} ${dockerRun}"
