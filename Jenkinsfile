@@ -53,7 +53,7 @@ node{
     }
 
     stage('Deploy to ec2'){
-        //def scriptsSourcePath = "${WORKSPACE}/target/api/*.sh"
+        def scriptsSourcePath = "${WORKSPACE}/target/api/*.sh"
         //def ec2ScriptDestinationFolder = "/home/ec2-user/scripts"
         //def permKey = "/Users/abninder/aws_credentials/docker-app.pem"
         //def ec2Instance = "ec2-user@ec2-35-171-176-196.compute-1.amazonaws.com"
