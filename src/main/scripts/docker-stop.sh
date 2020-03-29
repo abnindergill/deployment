@@ -11,7 +11,7 @@ echo "container id ${containerId} found" >> ${outputfile}
 if [ -n "${containerId}" ]; then
     echo "stopping container with id : $containerId" >> ${outputfile}
     echo "======================================================"
-    sudo docker kill "$containerId"
+    sudo docker kill "${containerId}"
 fi
 
 
