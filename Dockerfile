@@ -1,4 +1,4 @@
-FROM abninder/test-image
+FROM openjdk:8-jdk-alpine
 ENV LISTEN_PORT=8089
 
 ENV dir="/src/main/app/new/"
