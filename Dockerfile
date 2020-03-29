@@ -10,4 +10,4 @@ COPY target/api/application.yml ${dir}
 COPY target/api/app.sh ${dir}
 
 WORKDIR ${dir}
-CMD place [./app.sh ${LISTEN_PORT} ${path}]
+CMD ["./app.sh", "${LISTEN_PORT}","${path}"]

@@ -10,7 +10,7 @@ node{
         script{
             def build = currentBuild.previousBuild
             while (build != null) {
-                if (build.result != "FAILURE")
+                if (build.result != "FAILURE" || build.result != "ERROR")
                 {
                     lastSuccessfulBuildID = build.id as Integer
                     break
