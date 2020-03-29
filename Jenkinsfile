@@ -4,6 +4,7 @@ node{
     def mvn_home
     def docker
     def imageName
+    def stopTag = ${BUILD_NUMBER} - 1
 
     stage('Initialize')
     {
@@ -47,7 +48,7 @@ node{
         sh "chmod 777 ${scriptsSourcePath}"
         sh "scp -i ${permKey} ${scriptsSourcePath} ${ec2Instance}:${ec2ScriptDestinationFolder}"
 
-        sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder}/docker-stop.sh ${imageName}:${BUILD_NUMBER}-1"
+        sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder}/docker-stop.sh ${imageName}:${stopTag}"
         sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder}/docker-fetch-image.sh ${imageName}:${BUILD_NUMBER}"
 
         def dockerRun = "sudo docker run -p 8082:8085 -e LISTEN_PORT=8085 ${imageName}:${BUILD_NUMBER}"
