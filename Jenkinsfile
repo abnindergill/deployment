@@ -9,7 +9,7 @@ node{
     {
         docker = tool 'docker'
         mvn_home = tool 'maven'
-        imageName="abninder/test-image-latest"
+        imageName="abninder/hello-world-image"
         env.PATH = "${docker}/bin:${mvn_home}/bin:${env.PATH}"
     }
    
@@ -18,7 +18,7 @@ node{
     }
     
     stage('Compile-Package'){
-        sh "${mvn_home}/bin/mvn clean install"
+        sh "${mvn_home}/bin/mvn package"
     }
 
     stage('clean-up'){
@@ -27,7 +27,7 @@ node{
     }
 
     stage('Build image'){
-        sh "docker build -t ${imageName} . "
+        sh "docker build -t ${imageName}:${BUILD_NUMBER} . "
     }
 
     stage('Push image')
@@ -35,7 +35,7 @@ node{
         withCredentials([string(credentialsId: 'dockerLog', variable: 'DockerHubLogin')]) {
              sh "docker login -u abninder -p ${DockerHubLogin}"
         } 
-        sh "docker push ${imageName}"
+        sh "docker push ${imageName}:${BUILD_NUMBER}"
     }
 
     stage('Deploy to ec2'){
@@ -48,7 +48,7 @@ node{
         sh "scp -i ${permKey} ${scriptsSourcePath} ${ec2Instance}:${ec2ScriptDestinationFolder}"
 
         sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder}/docker-stop.sh ${imageName}"
-        sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder}/docker-fetch-image.sh ${imageName}"
+        sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder}/docker-fetch-image.sh ${imageName} ${BUILD_NUMBER}"
 
         def dockerRun = "sudo docker run -p 8082:8085 -e LISTEN_PORT=8085 ${imageName}"
         sh "ssh -i ${permKey} ${ec2Instance} ${dockerRun}"
