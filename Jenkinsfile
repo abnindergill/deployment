@@ -4,10 +4,11 @@ node{
     def mvn_home
     def docker
     def imageName
-    def stopTag = ${BUILD_NUMBER} - 1
+    def stopTag
 
     stage('Initialize')
     {
+        stopTag = 'wget -qO- http://localhost:8080/job/Helloworld/lastSuccessfulBuild/buildNumber'
         docker = tool 'docker'
         mvn_home = tool 'maven'
         imageName="abninder/hello-world-image"
