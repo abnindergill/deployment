@@ -1,16 +1,18 @@
-#!/bin/bash
 
 imageName="$1"
-echo "image name is ${imageName}" >>/tmp/testfile
+outputfile="/home/ec2-user/scripts/temp"
 
-containerId=$(docker ps | grep "${imageName}" | awk '{ print $1 }')
-echo "checking if container is running ...." >> /tmp/testfile
-echo "container id ${containerId} found" >> /tmp/testfile
+echo "image name is ${imageName}" >> ${outputfile}
+
+containerId=$(sudo docker ps | grep "${imageName}" | awk '{ print $1 }')
+echo "checking if container is running ...." >> ${outputfile}
+echo "container id ${containerId} found" >> ${outputfile}
 
 if [ -n "${containerId}" ]; then
-    echo "stopping container with id : $containerId" >> /tmp/testfile
+    echo "stopping container with id : $containerId" >> ${outputfile}
     echo "======================================================"
-    docker kill "$containerId"
+    sudo docker kill "$containerId"
 fi
+
 
 

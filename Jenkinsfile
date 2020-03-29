@@ -40,14 +40,17 @@ node{
 
     stage('Deploy to ec2'){
         sshagent(['ec2-instance']) {
-            def stopScript = "${WORKSPACE}/target/api/docker-stop.sh"
-            def ec2ScriptFolder = "/home/ec2-user/scripts/docker-stop.sh"
-            sh "chmod 777 ${stopScript}"
-            sh "scp ${stopScript} -o StrictHostKeyChecking=no ec2-user@35.171.176.196:${ec2ScriptFolder}"
-            sh "ssh -o StrictHostKeyChecking=no ec2-user@35.171.176.196 ${ec2ScriptFolder} ${imageName}"
+            object stopScript = "${WORKSPACE}/target/api/docker-stop.sh"
+            object ec2ScriptDestinationFolder = "/home/ec2-user/scripts/docker-stop.sh"
+            object permKey = "/Users/abninder/aws_credentials/docker-app.pem"
+            object ec2Instance = " ec2-user@ec2-35-171-176-196.compute-1.amazonaws.com"
 
-            def dockerRun = "sudo docker run -p 8082:8085 -e LISTEN_PORT=8085 ${imageName}"
-            sh "ssh -o StrictHostKeyChecking=no ec2-user@35.171.176.196 ${dockerRun}"
+            sh "chmod 777 ${stopScript}"
+            sh "scp -i ${permKey} ${stopScript} ${ec2Instance}:${ec2ScriptDestinationFolder}"
+            sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptFolder} ${imageName}"
+
+            object dockerRun = "sudo docker run -p 8082:8085 -e LISTEN_PORT=8085 ${imageName}"
+            sh "ssh ${permKey} ${ec2Instance} ${dockerRun}"
         }
     }
 }
