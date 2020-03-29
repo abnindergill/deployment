@@ -48,8 +48,8 @@ node{
         sh "chmod 777 ${scriptsPath}"
         sh "scp -i ${permKey} ${scriptsPath} ${ec2Instance}:${ec2ScriptDestinationFolder}"
 
-        sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder} /docker-stop.sh ${imageName}"
-        sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder} /docker-fetch-image.sh ${imageName}"
+        sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder}/docker-stop.sh ${imageName}"
+        sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder}/docker-fetch-image.sh ${imageName}"
 
         def dockerRun = "sudo docker run -p 8082:8085 -e LISTEN_PORT=8085 ${imageName}"
         sh "ssh -i ${permKey} ${ec2Instance} ${dockerRun}"
