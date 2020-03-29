@@ -6,7 +6,7 @@ ENV dir="/src/main/app/new/"
 ENV path=${dir}hello-world.jar
 
 RUN mkdir -p ${dir}
-COPY target/api/hello-world.jar ${dir}
+ADD target/api/hello-world.jar ${dir}
 COPY target/api/application.yml ${dir}
 COPY target/api/app.sh ${dir}
 
