@@ -39,7 +39,6 @@ node{
     }
 
     stage('Deploy to ec2'){
-        def stopScript = "${WORKSPACE}/target/api/docker-stop.sh"
         def scriptsPath = "${WORKSPACE}/target/api/*.sh"
         def ec2ScriptDestinationFolder = "/home/ec2-user/scripts"
         def permKey = "/Users/abninder/aws_credentials/docker-app.pem"
