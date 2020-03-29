@@ -4,8 +4,10 @@ node{
     def mvn_home
     def docker
     def imageName
-    def lastSuccessfulBuildID=0
+    def lastSuccessfulBuildID
 
+    //get last successful build number so that we can terminate
+    //the docker container running for the image associated with that build tag
     script{
         script{
             def build = currentBuild.previousBuild
@@ -26,24 +28,23 @@ node{
         imageName="abninder/hello-world-image"
         env.PATH = "${docker}/bin:${mvn_home}/bin:${env.PATH}"
     }
-   
+
+    //check out deployment project
     stage('SCM Checkout'){
         git 'https://github.com/abnindergill/deployment.git'
     }
-    
+
+    //rebuild and package the deployment project
     stage('Compile-Package'){
         sh "${mvn_home}/bin/mvn package"
     }
 
-    stage('clean-up'){
-        //tidy up by removing all stopped containers
-        sh 'docker container prune -f'
-    }
-
+    //build the docker image tagging it with the jenkins build number
     stage('Build image'){
         sh "docker build -t ${imageName}:${BUILD_NUMBER} ${WORKSPACE} "
     }
 
+    //login into docker hub and push the built image to docker hub with image tag
     stage('Push image')
     {
         withCredentials([string(credentialsId: 'dockerLog', variable: 'DockerHubLogin')]) {
@@ -52,6 +53,7 @@ node{
         sh "docker push ${imageName}:${BUILD_NUMBER}"
     }
 
+    //deploy to amazon ec2 instance and start up the container there
     stage('Deploy to ec2'){
         sh "chmod 777 ${WORKSPACE}/target/api/*.sh"
         sh "${WORKSPACE}/target/api/ec2-deployment.sh ${WORKSPACE} ${imageName} ${lastSuccessfulBuildID} ${BUILD_NUMBER}"
