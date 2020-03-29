@@ -1,7 +1,13 @@
 FROM maven:3.5.2-jdk-8-alpine AS MAVEN_BUILD
 
-EXPOSE 8085
-WORKDIR /app
-COPY --from=MAVEN_BUILD /build/target/api/hello-world.jar /app/
+COPY pom.xml /build/
+COPY src /build/src/
+WORKDIR /build/
+RUN mvn package
 
-CMD ["java", "-jar", "-DServer.port=8085","hello-world.jar"]
+FROM openjdk:8-jre-alpine
+WORKDIR /app
+
+COPY --from=MAVEN_BUILD /build/target/api/hello-world.jar /app/
+COPY --from=MAVEN_BUILD /build/target/api/application.yml /app/
+ENTRYPOINT ["java", "-jar", "-DServer.port=8085", "hello-world.jar"]
