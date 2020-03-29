@@ -10,4 +10,4 @@ COPY target/api/application.yml ${dir}
 COPY target/api/app.sh ${dir}
 
 WORKDIR ${dir}
-CMD ["java", "-jar", "/hello-world.jar"]
+CMD ["java", "-jar", "/src/main/app/new/hello-world.jar"]
