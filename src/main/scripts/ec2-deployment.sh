@@ -1,3 +1,5 @@
+#!/bin/bash
+
 WORKSPACE="$1"
 IMAGE_NAME="$2"
 LAST_SUCCESSFUL_BUILD="$3"
