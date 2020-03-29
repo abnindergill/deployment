@@ -1,3 +1,3 @@
 imageName="$1"
 
- sudo docker pull "${}imageName}"
+ sudo docker pull "${imageName}"
