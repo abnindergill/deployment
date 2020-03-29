@@ -1,8 +1,10 @@
-FROM maven as build
+FROM openjdk:8-jre-alpine
 
-COPY pom.xml /build/
-COPY src /build/src/
+ENV TARGET_DIR="/build"
+RUN mkdir -p ${TARGET_DIR}
+ADD target/api/application.yml ${TARGET_DIR}
+ADD target/api/hello-world.jar ${TARGET_DIR}
 
-WORKDIR /build/
-RUN mvn clean install
+WORKDIR ${TARGET_DIR}
+ENTRYPOINT ["java", "-jar", "-DServer.port=8085", "hello-world.jar"]
 
