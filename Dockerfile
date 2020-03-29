@@ -11,4 +11,4 @@ COPY target/api/application.yml ${dir}
 COPY target/api/app.sh ${dir}
 
 WORKDIR ${dir}
-CMD ["java", "-jar", "/src/main/app/new/hello-world.jar"]
+CMD ["java", "-jar", "-DServer.port=8085","/src/main/app/new/hello-world.jar"]
