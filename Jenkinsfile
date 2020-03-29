@@ -49,6 +49,6 @@ node{
         sh "ssh -i ${permKey} ${ec2Instance} ${ec2ScriptDestinationFolder} ${imageName}"
 
         def dockerRun = "sudo docker run -p 8082:8085 -e LISTEN_PORT=8085 ${imageName}"
-        sh "ssh ${permKey} ${ec2Instance} ${dockerRun}"
+        sh "ssh -i ${permKey} ${ec2Instance} ${dockerRun}"
     }
 }
