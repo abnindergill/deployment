@@ -1,5 +1,6 @@
 FROM openjdk:8-jre-alpine
 ENV LISTEN_PORT=8089
+EXPOSE 8085
 
 ENV dir="/src/main/app/new/"
 ENV path=${dir}hello-world.jar
