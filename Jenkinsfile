@@ -1,5 +1,5 @@
 properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '3']]])
-
+@Library('github.com/releaseworks/jenkinslib') _
 node{
     def mvn_home
     def docker
