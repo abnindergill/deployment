@@ -5,6 +5,8 @@ node{
     def docker
     def imageName
     def lastSuccessfulBuildID
+    def PUBLIC_DNS
+    def EC2_INSTANCE_ID
 
     //get last successful build number so that we can terminate
     //the docker container running for the image associated with that build tag
@@ -53,9 +55,16 @@ node{
         sh "docker push ${imageName}:${BUILD_NUMBER}"
     }
 
+    stage('start/check ec2 instance'){
+        sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
+        sh "source ${WORKSPACE}/target/scripts/ec2-create-instance.sh"
+        PUBLIC_DNS=${EC2_HOST_NAME}
+        EC2_INSTANCE_ID=${INSTANCE_ID}
+    }
+
     //deploy to amazon ec2 instance and start up the container there
     stage('Deploy to ec2'){
-        sh "chmod 777 ${WORKSPACE}/target/api/*.sh"
-        sh "${WORKSPACE}/target/api/ec2-deployment.sh ${WORKSPACE} ${imageName} ${lastSuccessfulBuildID} ${BUILD_NUMBER}"
+        sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
+        sh "${WORKSPACE}/target/api/ec2-deployment.sh ${WORKSPACE} ${imageName} ${lastSuccessfulBuildID} ${BUILD_NUMBER} ${PUBLIC_DNS}"
     }
 }
