@@ -61,12 +61,15 @@ node{
     stage('start-check ec2 instance'){
             sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
             sh "source ${WORKSPACE}/target/scripts/ec2-create-instance.sh"
+            sh "eco host name => ${EC2_HOST_NAME}"
+            sh "eco instance id => ${EC2_INSTANCE_ID}"
+            sh "eco [em key => ${EC2_PEM_KEY}"
     }
 
     //deploy to amazon ec2 instance and start up the container there
-    stage('Deploy to ec2'){
-        sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
-        sh "${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} ${imageName} " +
-                "${lastSuccessfulBuildID} ${BUILD_NUMBER} ${EC2_HOST_NAME}, ${EC2_PEM_KEY}"
-    }
+    //stage('Deploy to ec2'){
+     //   sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
+       // sh "${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} ${imageName} " +
+          //      "${lastSuccessfulBuildID} ${BUILD_NUMBER} ${EC2_HOST_NAME}, ${EC2_PEM_KEY}"
+    //}
 }
