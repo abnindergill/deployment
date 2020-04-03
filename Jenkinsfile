@@ -55,12 +55,12 @@ node{
         sh "docker push ${imageName}:${BUILD_NUMBER}"
     }
 
-    stage('start/check ec2 instance'){
+    stage('start-check ec2 instance'){
             sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
             sh "source ${WORKSPACE}/target/scripts/ec2-create-instance.sh"
-            PUBLIC_DNS="${EC2_HOST_NAME}"
-            EC2_INSTANCE_ID="${INSTANCE_ID}"
-            PEM_KEY="${PEM_KEY}"
+            PUBLIC_DNS=${EC2_HOST_NAME}
+            EC2_INSTANCE_ID=${INSTANCE_ID}
+            PEM_KEY=${PEM_KEY}
     }
 
     //deploy to amazon ec2 instance and start up the container there
