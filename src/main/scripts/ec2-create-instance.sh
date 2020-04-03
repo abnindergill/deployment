@@ -1,5 +1,12 @@
 #!/bin/bash
 
+WORKSPACE="$1"
+IMAGE_NAME="$2"
+LAST_SUCCESSFUL_BUILD_ID="$3"
+BUILD_NUMBER="$4"
+
+EC2_PEM_KEY=/Users/abninder/aws_credentials/HelloWorld.pem
+
 keyName=thisisanfield
 securityGroup=MySecurityGroup
 amiId=ami-0af3fadf16822d385
@@ -38,9 +45,9 @@ securityGroupId=$(${aws} ec2 describe-security-groups --group-names ${securityGr
 #check if pem key exists for key pair, if not create it and save to a file
 keyPairName=$(${aws} ec2 describe-key-pairs --key-name ${keyName})
 if [ -z "${keyPairName}" ]; then
-    ${aws} ec2 create-key-pair --key-name ${keyName} --query 'KeyMaterial' --output text > /Users/abninder/aws_credentials/HelloWorld.pem
+    ${aws} ec2 create-key-pair --key-name ${keyName} --query 'KeyMaterial' --output text > ${EC2_PEM_KEY}
     echo created pem key for key name ${keyName}
-    chmod 400 /Users/abninder/aws_credentials/HelloWorld.pem
+    chmod 400 ${EC2_PEM_KEY}
 fi
 
 #check if there are any running ec2 instances
@@ -59,9 +66,10 @@ if [ -z "${instanceId}" ]; then
 fi
 
 #get the public dns name as we will need this for deployment
-publicDnsName=$(${aws} ec2 describe-instances --instance-ids ${instanceId} --query 'Reservations[].Instances[].PublicDnsName' --output text)
-setenv EC2_HOST_NAME=${publicDnsName}
-setenv EC2_INSTANCE_ID=${instanceId}
-setenv PEM_KEY=/Users/abninder/aws_credentials/HelloWorld.pem
+PUBLIC_DNS_NAME=$(${aws} ec2 describe-instances --instance-ids ${instanceId} --query 'Reservations[].Instances[].PublicDnsName' --output text)
+
+#deploy to ec2 and spin up the container
+${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} ${IMAGE_NAME} ${LAST_SUCCESSFUL_BUILD_ID}
+                 ${BUILD_NUMBER} ${PUBLIC_DNS_NAME}, ${EC2_PEM_KEY}
 
 

@@ -52,18 +52,8 @@ node{
         sh "docker push ${imageName}:${BUILD_NUMBER}"
     }
 
-    stage('start-check ec2 instance'){
+    stage('deploy to ec2 instance'){
             sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
-            sh "${WORKSPACE}/target/scripts/ec2-create-instance.sh"
-            sh "eco host name => ${EC2_HOST_NAME}"
-            sh "eco instance id => ${EC2_INSTANCE_ID}"
-            sh "eco [em key => ${EC2_PEM_KEY}"
+            sh "${WORKSPACE}/target/scripts/ec2-create-instance.sh ${WORKSPACE} ${imageName} ${lastSuccessfulBuildID} ${BUILD_NUMBER}"
     }
-
-    //deploy to amazon ec2 instance and start up the container there
-    //stage('Deploy to ec2'){
-     //   sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
-       // sh "${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} ${imageName} " +
-          //      "${lastSuccessfulBuildID} ${BUILD_NUMBER} ${EC2_HOST_NAME}, ${EC2_PEM_KEY}"
-    //}
 }
