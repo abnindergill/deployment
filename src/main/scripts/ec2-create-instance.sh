@@ -12,6 +12,7 @@ echo configuring instance for region : ${region}
 
 #check if we have the security group already
 securityGroupFound=$(${aws} ec2 describe-security-groups --group-names ${securityGroup})
+echo SECURITY GROUP id ${securityGroupFound}
 
 #if security group does not exist then create it and add ensures that the new instance can receive traffic on ports 22 and 80
 if [ -z "${securityGroupFound}" ]; then
