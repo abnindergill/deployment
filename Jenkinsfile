@@ -55,16 +55,10 @@ node{
     }
 
     stage('start/check ec2 instance'){
-
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'aws-key', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-            AWS("--region=us-east-1 s3 ls")
-
             sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
             sh "source ${WORKSPACE}/target/scripts/ec2-create-instance.sh"
             PUBLIC_DNS=${EC2_HOST_NAME}
             EC2_INSTANCE_ID=${INSTANCE_ID}
-        }
-
     }
 
     //deploy to amazon ec2 instance and start up the container there
