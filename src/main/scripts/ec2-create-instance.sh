@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set +e
-
 keyName=thisisanfield
 securityGroup=MySecurityGroup
 amiId=ami-0af3fadf16822d385
