@@ -54,21 +54,22 @@ instanceId=$(${aws} ec2 describe-instances  --filters "Name=instance-state-name,
 if [ -z "${instanceId}" ]; then
     #create a new ec2 instance
     instancesInfo=$(${aws} ec2 run-instances --image-id ${amiId} --count 1 --instance-type t2.micro --key-name ${keyName} --security-groups ${securityGroup} --output json)
-    echo status is : ${instancesInfo}
 
     #get instance id of newly created instance
     instanceId=$(${aws} ec2 describe-instances  --filters "Name=instance-state-name,Values=pending" --query 'Reservations[*].Instances[*].{Instance:InstanceId}' --output text)
+    echo newly created instanceId is : ${instanceId}
 
-    echo waiting for new instance to be ready ...
+    echo waiting for instance with ${instanceId} to be ready ...
     status=$(${aws} ec2 wait --region ${region} instance-status-ok --instance-ids ${instanceId})
     echo new instance is ready
 fi
 
 #get the public dns name as we will need this for deployment
 PUBLIC_DNS_NAME=$(${aws} ec2 describe-instances --instance-ids ${instanceId} --query 'Reservations[].Instances[].PublicDnsName' --output text)
+echo Public dns name is ${PUBLIC_DNS_NAME}
 
 #deploy to ec2 and spin up the container
-#${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} ${IMAGE_NAME} ${LAST_SUCCESSFUL_BUILD_ID}
-     #            ${BUILD_NUMBER} ${PUBLIC_DNS_NAME} ${EC2_PEM_KEY}
+${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} ${IMAGE_NAME} ${LAST_SUCCESSFUL_BUILD_ID}
+                 ${BUILD_NUMBER} ${PUBLIC_DNS_NAME} ${EC2_PEM_KEY}
 
 
