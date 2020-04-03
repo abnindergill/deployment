@@ -19,7 +19,7 @@ if [ -z "${securityGroupFound}" ]; then
     echo "created security group ${securityGroup}"
 
     #get the security group id as we will need this to add rules
-    securityGroupId=$(${}aws} ec2 describe-security-groups --group-names ${securityGroup} --query 'SecurityGroups[*].[GroupId]' --output text)
+    securityGroupId=$(${aws} ec2 describe-security-groups --group-names ${securityGroup} --query 'SecurityGroups[*].[GroupId]' --output text)
     echo Security group id is: ${securityGroupId}
 
     #open up port 22 for ssh
