@@ -56,17 +56,14 @@ node{
     }
 
     stage('start-check ec2 instance'){
-            sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
-            sh "source ${WORKSPACE}/target/scripts/ec2-create-instance.sh"
-            PUBLIC_DNS=${EC2_HOST_NAME}
-            //EC2_INSTANCE_ID=${INSTANCE_ID}
-            //PEM_KEY=${PEM_KEY}
+        sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
+        sh "source ${WORKSPACE}/target/scripts/ec2-create-instance.sh"
     }
 
     //deploy to amazon ec2 instance and start up the container there
-    //stage('Deploy to ec2'){
-   //     sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
-   //     sh "${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} ${imageName} " +
-   //             "${lastSuccessfulBuildID} ${BUILD_NUMBER} ${PUBLIC_DNS}, ${PEM_KEY}"
-  //  }
+    stage('Deploy to ec2'){
+        sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
+        sh "${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} ${imageName} " +
+                "${lastSuccessfulBuildID} ${BUILD_NUMBER} ${PUBLIC_DNS}, ${PEM_KEY}"
+    }
 }
