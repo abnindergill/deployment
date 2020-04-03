@@ -7,7 +7,7 @@ LAST_SUCCESSFUL_BUILD="$3"
 BUILD_NUMBER="$4"
 EC2_PUBLIC_DNS="$5"
 
-SCRIPTS_SRC_PATH="${WORKSPACE}/target/api/docker*.sh"
+SCRIPTS_SRC_PATH="${WORKSPACE}/target/scripts/docker*.sh"
 SCRIPTS_DESTINATION_FOLDER="/home/ec2-user/scripts"
 PERM_KEY="/Users/abninder/aws_credentials/docker-app.pem"
 
