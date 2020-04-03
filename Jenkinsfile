@@ -64,9 +64,9 @@ node{
     }
 
     //deploy to amazon ec2 instance and start up the container there
-    stage('Deploy to ec2'){
-        sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
-        sh "${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} ${imageName} " +
-                "${lastSuccessfulBuildID} ${BUILD_NUMBER} ${PUBLIC_DNS}, ${PEM_KEY}"
-    }
+    //stage('Deploy to ec2'){
+   //     sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
+   //     sh "${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} ${imageName} " +
+   //             "${lastSuccessfulBuildID} ${BUILD_NUMBER} ${PUBLIC_DNS}, ${PEM_KEY}"
+  //  }
 }
