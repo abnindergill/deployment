@@ -11,6 +11,7 @@ region=$(${aws} configure get region)
 echo configuring instance for region : ${region}
 
 #check if we have the security group already
+set +e
 securityGroupFound=$(${aws} ec2 describe-security-groups --group-names ${securityGroup})
 echo SECURITY GROUP id ${securityGroupFound}
 
