@@ -5,12 +5,6 @@ node{
     def imageName
     def lastSuccessfulBuildID
 
-    environment {
-        EC2_HOST_NAME
-        EC2_INSTANCE_ID
-        EC2_PEM_KEY
-    }
-
     //get last successful build number so that we can terminate
     //the docker container running for the image associated with that build tag
     script{
