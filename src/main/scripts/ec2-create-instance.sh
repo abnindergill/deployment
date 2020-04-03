@@ -20,7 +20,6 @@ echo configuring instance for region : ${region}
 #check if we have the security group already
 set +e
 securityGroupFound=$(${aws} ec2 describe-security-groups --group-names ${securityGroup})
-echo SECURITY GROUP id ${securityGroupFound}
 
 #if security group does not exist then create it and add ensures that the new instance can receive traffic on ports 22 and 80
 if [ -z "${securityGroupFound}" ]; then
@@ -70,6 +69,6 @@ PUBLIC_DNS_NAME=$(${aws} ec2 describe-instances --instance-ids ${instanceId} --q
 
 #deploy to ec2 and spin up the container
 ${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} ${IMAGE_NAME} ${LAST_SUCCESSFUL_BUILD_ID}
-                 ${BUILD_NUMBER} ${PUBLIC_DNS_NAME}, ${EC2_PEM_KEY}
+                 ${BUILD_NUMBER} ${PUBLIC_DNS_NAME} ${EC2_PEM_KEY}
 
 
