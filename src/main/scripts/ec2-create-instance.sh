@@ -5,7 +5,7 @@ securityGroup=MySecurityGroup
 amiId=ami-0af3fadf16822d385
 
 #get the region the instance will run in
-region=$(aws configure get region)
+region=$(/usr/local/bin/aws configure get region)
 echo configuring instance for region : ${region}
 
 #check if we have the security group already
