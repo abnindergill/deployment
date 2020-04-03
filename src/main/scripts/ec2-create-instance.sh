@@ -60,8 +60,8 @@ fi
 
 #get the public dns name as we will need this for deployment
 publicDnsName=$(${aws} ec2 describe-instances --instance-ids ${instanceId} --query 'Reservations[].Instances[].PublicDnsName' --output text)
-export HOST_NAME=${publicDnsName}
-export INSTANCE_ID=${instanceId}
+export EC2_HOST_NAME=${publicDnsName}
+export EC2_INSTANCE_ID=${instanceId}
 export PEM_KEY=/Users/abninder/aws_credentials/HelloWorld.pem
 
 

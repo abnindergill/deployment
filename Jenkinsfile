@@ -4,9 +4,12 @@ node{
     def docker
     def imageName
     def lastSuccessfulBuildID
-    def EC2_HOST_NAME
-    def EC2_INSTANCE_ID
-    def EC2_PEM_KEY
+
+    environment {
+        EC2_HOST_NAME
+        EC2_INSTANCE_ID
+        EC2_PEM_KEY
+    }
 
     //get last successful build number so that we can terminate
     //the docker container running for the image associated with that build tag
@@ -58,15 +61,12 @@ node{
     stage('start-check ec2 instance'){
             sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
             sh "source ${WORKSPACE}/target/scripts/ec2-create-instance.sh"
-            EC2_HOST_NAME=HOST_NAME
-            EC2_INSTANCE_ID=INSTANCE_ID
-            EC2_PEM_KEY=PEM_KEY
     }
 
     //deploy to amazon ec2 instance and start up the container there
     stage('Deploy to ec2'){
         sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
         sh "${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} ${imageName} " +
-                "${lastSuccessfulBuildID} ${BUILD_NUMBER} ${PUBLIC_DNS}, ${PEM_KEY}"
+                "${lastSuccessfulBuildID} ${BUILD_NUMBER} ${EC2_HOST_NAME}, ${EC2_PEM_KEY}"
     }
 }
