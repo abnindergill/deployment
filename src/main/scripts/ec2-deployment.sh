@@ -19,9 +19,11 @@ SCRIPTS_DESTINATION_FOLDER="/home/ec2-user/scripts"
 
 DOCKER_CONTAINER_STARTUP_CMD="sudo docker run -p 8082:8085 -e LISTEN_PORT=8085 ${IMAGE_NAME}:${BUILD_NUMBER}"
 
+echo creating directory ${SCRIPTS_DESTINATION_FOLDER} on ${EC2_PUBLIC_DNS} if it doesnt exist
 ssh -i ${PEM_KEY} "ec2-user@${EC2_PUBLIC_DNS}" mkdir -p ${SCRIPTS_DESTINATION_FOLDER}
 
 #copy scripts to ec2 instance
+echo copying scripts from ${SCRIPTS_SRC_PATH} to ${SCRIPTS_DESTINATION_FOLDER} on ${EC2_PUBLIC_DNS}
 scp -i ${PEM_KEY} ${SCRIPTS_SRC_PATH} "ec2-user@${EC2_PUBLIC_DNS}":${SCRIPTS_DESTINATION_FOLDER}
 
 #stop the docker container already running tagged with the last successful build number
