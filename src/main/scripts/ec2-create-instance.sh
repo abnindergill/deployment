@@ -35,7 +35,10 @@ if [ -z "${securityGroupFound}" ]; then
     echo "enabled ssh for security group: ${securityGroup} on port 22"
 
     #open port 80 for http requests
-    ${aws} ec2 authorize-security-group-ingress  --group-name MySecurityGroup --protocol tcp  --port 80 --cidr 0.0.0.0/0
+    ${aws} ec2 authorize-security-group-ingress  --group-name MySecurityGroup --protocol tcp  --port 80 --cidr 0.0.0.0/0 --region ${region}
+    echo "enabled http for security group: ${securityGroup} on port 8080"
+
+    ${aws} ec2 authorize-security-group-ingress  --group-name MySecurityGroup --protocol tcp  --port 8080 --cidr 0.0.0.0/0 --region ${region}
     echo "enabled http for security group: ${securityGroup} on port 80"
 fi
 
