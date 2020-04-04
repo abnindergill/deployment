@@ -72,8 +72,5 @@ PUBLIC_DNS_NAME=$(${aws} ec2 describe-instances --instance-ids ${instanceId} --q
 echo Public dns name is ${PUBLIC_DNS_NAME}
 
 #deploy to ec2 and spin up the container
-#${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} \
-# ${IMAGE_NAME} ${LAST_SUCCESSFUL_BUILD_ID} ${BUILD_NUMBER} \
-# ${PUBLIC_DNS_NAME} ${EC2_PEM_KEY}
-#/
+${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} ${IMAGE_NAME} ${LAST_SUCCESSFUL_BUILD_ID} ${BUILD_NUMBER} ${PUBLIC_DNS_NAME} ${EC2_PEM_KEY}
 
