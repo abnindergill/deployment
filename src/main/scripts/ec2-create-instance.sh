@@ -13,10 +13,6 @@ amiId=ami-0af3fadf16822d385
 
 aws=/usr/local/bin/aws
 
-#get the region the instance will run in
-region=$(${aws} configure get region)
-echo configuring instance for region : ${region}
-
 #check if we have the security group already
 set +e
 securityGroupFound=$(${aws} ec2 describe-security-groups --group-names ${securityGroup})
@@ -29,6 +25,10 @@ if [ -z "${securityGroupFound}" ]; then
     #get the security group id as we will need this to add rules
     securityGroupId=$(${aws} ec2 describe-security-groups --group-names ${securityGroup} --query 'SecurityGroups[*].[GroupId]' --output text)
     echo Security group id is: ${securityGroupId}
+
+    #get the region the instance will run in
+    region=$(${aws} configure get region)
+    echo configuring instance for region : ${region}
 
     #open up port 22 for ssh
     ${aws} ec2 authorize-security-group-ingress --group-id ${securityGroupId} --protocol tcp --port 22  --cidr 0.0.0.0/0 --region ${region}
@@ -72,8 +72,8 @@ PUBLIC_DNS_NAME=$(${aws} ec2 describe-instances --instance-ids ${instanceId} --q
 echo Public dns name is ${PUBLIC_DNS_NAME}
 
 #deploy to ec2 and spin up the container
-${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} \
- ${IMAGE_NAME} ${LAST_SUCCESSFUL_BUILD_ID} ${BUILD_NUMBER} \
- ${PUBLIC_DNS_NAME} ${EC2_PEM_KEY}
-/
+#${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} \
+# ${IMAGE_NAME} ${LAST_SUCCESSFUL_BUILD_ID} ${BUILD_NUMBER} \
+# ${PUBLIC_DNS_NAME} ${EC2_PEM_KEY}
+#/
 
