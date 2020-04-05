@@ -8,7 +8,7 @@ SECURITY_GROUP_NAME=MySecurityGroup
 aws=/usr/local/bin/aws
 
 set +e
-instanceId=$(${WORKSPACE}/checkRunningEc2Instances.sh aws)
+instanceId=$(${WORKSPACE}/checkRunningEc2Instances.sh ${aws})
 
 if [[ $instanceId ]]; then
    echo instance id is: ${instanceId}
