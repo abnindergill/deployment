@@ -60,7 +60,7 @@ node{
 
     stage('prepare ec2 instance'){
         sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
-        sh "${WORKSPACE}/target/scripts/prepareEC2Instance.sh ${env.ec2_pem_key_path}"
+        sh "${WORKSPACE}/target/scripts/prepareEC2Instance.sh ${env.ec2_pem_key_path} ${WORKSPACE}"
         //sh echo ec2 instance: ${publicDns}
     }
 
