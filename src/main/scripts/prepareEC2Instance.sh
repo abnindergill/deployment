@@ -30,6 +30,5 @@ else
    PUBLIC_DNS=$(${WORKSPACE}/createNewEc2Instance.sh ${aws} ${PEM_KEY_NAME} ${SECURITY_GROUP_NAME} ${region})
 fi
 
-${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} ${IMAGE_NAME} ${LAST_SUCCESSFUL_BUILD} \
-${BUILD_NUMBER} ${PUBLIC_DNS} ${PEM_KEY_NAME}
-/
+${WORKSPACE}/ec2-deployment.sh ${WORKSPACE} ${IMAGE_NAME} ${LAST_SUCCESSFUL_BUILD} ${BUILD_NUMBER} ${PUBLIC_DNS} ${PEM_KEY_NAME}
+
