@@ -63,7 +63,7 @@ node{
         environment {
             publicDns = sh(script: "${WORKSPACE}/target/scripts/prepareEC2Instance.sh /Users/abninder/aws_credentials/HelloWorld.pem ${WORKSPACE}/target/scripts", returnStdout: true)
         }
-        sh echo ec2 instance: ${env.publicDns}
+        sh "echo ec2 instance: ${env.publicDns}"
     }
 
     stage ('deploy to ec2') {
