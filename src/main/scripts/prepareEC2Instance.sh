@@ -7,6 +7,7 @@ BUILD_NUMBER="$4"
 
 PEM_KEY_NAME=thisisanfield
 SECURITY_GROUP_NAME=MySecurityGroup
+EC2_PEM_KEY_PATH=/Users/abninder/aws_credentials/HelloWorld.pem
 PUBLIC_DNS=""
 
 aws=/usr/local/bin/aws
