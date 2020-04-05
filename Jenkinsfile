@@ -60,11 +60,11 @@ node{
 
     stage('prepare ec2 instance'){
         sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
-        sh publicDns=$("${WORKSPACE}/target/scripts/prepareEC2Instance.sh ${ec2_pem_key_path}")
+        sh publicDns=$("${WORKSPACE}/target/scripts/prepareEC2Instance.sh ${env.ec2_pem_key_path}")
         sh echo ec2 instance: ${publicDns}
     }
 
     stage ('deploy to ec2') {
-        sh "chmod 777 ${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} ${imageName} ${lastSuccessfulBuildID} ${BUILD_NUMBER} ${publicDns} ${ec2_pem_key_path}"
+        sh "chmod 777 ${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} ${imageName} ${lastSuccessfulBuildID} ${BUILD_NUMBER} ${publicDns} ${env.ec2_pem_key_path}"
     }
 }
