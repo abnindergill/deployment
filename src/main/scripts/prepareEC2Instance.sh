@@ -24,7 +24,7 @@ else
    ${WORKSPACE}/authoriseSecurityGroups.sh ${aws} ${securityGroupId} ${region}
 
    ${WORKSPACE}/createPemKey.sh ${aws} ${EC2_PEM_KEY_PATH} ${PEM_KEY_NAME}
-   publicDns=$(${WORKSPACE}/createNewEc2Instance.sh ${aws} ${PEM_KEY_NAME} ${SECURITY_GROUP_NAME} ${region})
-   echo ${publicDns}
+   PUBLIC_DNS=$(${WORKSPACE}/createNewEc2Instance.sh ${aws} ${PEM_KEY_NAME} ${SECURITY_GROUP_NAME} ${region})
+   EXPORT ${PUBLIC_DNS}
 fi
 
