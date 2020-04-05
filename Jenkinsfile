@@ -58,16 +58,8 @@ node{
         sh "docker push ${imageName}:${BUILD_NUMBER}"
     }
 
-    stage('prepare ec2 instance'){
+    stage('prepare ec2 instance and deploy'){
         sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
-        sh "source ${WORKSPACE}/target/scripts/prepareEC2Instance.sh /Users/abninder/aws_credentials/HelloWorld.pem ${WORKSPACE}/target/scripts"
-        public_dns=${PUBLIC_DNS}
-        sh "echo ec2 instance dns: ${publicDns}"
+        sh "source ${WORKSPACE}/target/scripts/prepareEC2Instance.sh ${WORKSPACE}/target/scripts ${imageName} ${lastSuccessfulBuildID} ${BUILD_NUMBER}"
     }
-
-
-    //stage ('deploy to ec2') {
-    //    sh "chmod 777 ${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} ${imageName} ${lastSuccessfulBuildID} ${BUILD_NUMBER} " +
-               // "${env.publicDns} /Users/abninder/aws_credentials/HelloWorld.pem"
-   // }
 }
