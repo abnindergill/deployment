@@ -3,14 +3,19 @@
 #assign passed in parameters
 WORKSPACE="$1"
 echo workspace is: ${WORKSPACE}
+
 IMAGE_NAME="$2"
 echo image name is: ${IMAGE_NAME}
+
 LAST_SUCCESSFUL_BUILD="$3"
 echo last successful build number is: ${LAST_SUCCESSFUL_BUILD}
+
 BUILD_NUMBER="$4"
 echo current build number is: ${BUILD_NUMBER}
+
 EC2_PUBLIC_DNS="$5"
 echo public ec2 dns is: ${EC2_PUBLIC_DNS}
+
 PEM_KEY="$6"
 echo pem key path is: ${PEM_KEY}
 

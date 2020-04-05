@@ -36,13 +36,6 @@ if [ -z "${securityGroupFound}" ]; then
 
     ${aws} ec2 authorize-security-group-ingress --group-id ${securityGroupId} --protocol all --port -1  --cidr 0.0.0.0/0 --region ${region}
     echo "enabled all traffic for security group: ${securityGroup}"
-
-    #open port 80 for http requests
-    #${aws} ec2 authorize-security-group-ingress  --group-name MySecurityGroup --protocol tcp  --port 80 --cidr 0.0.0.0/0 --region ${region}
-   # echo "enabled http for security group: ${securityGroup} on port 8080"
-
-    #${aws} ec2 authorize-security-group-ingress  --group-name MySecurityGroup --protocol tcp  --port 8080 --cidr 0.0.0.0/0 --region ${region}
-    #echo "enabled http for security group: ${securityGroup} on port 80"
 fi
 
 securityGroupId=$(${aws} ec2 describe-security-groups --group-names ${securityGroup} --query 'SecurityGroups[*].[GroupId]' --output text)
@@ -60,6 +53,7 @@ instanceId=$(${aws} ec2 describe-instances  --filters "Name=instance-state-name,
 if [ -z "${instanceId}" ]; then
 
     #create a new ec2 instance
+    # shellcheck disable=SC2034
     instancesInfo=$(${aws} ec2 run-instances --image-id ${amiId} --count 1 --instance-type t2.micro --key-name ${keyName} --security-groups ${securityGroup} --output json)
 
     #get instance id of newly created instance
@@ -67,14 +61,17 @@ if [ -z "${instanceId}" ]; then
     echo newly created instanceId is : ${instanceId}
 
     echo waiting for instance with ${instanceId} to be ready ...
+
+    # shellcheck disable=SC2034
+    #The script will suspend here until the newly created ec2v instance is ready
     status=$(${aws} ec2 wait --region ${region} instance-status-ok --instance-ids ${instanceId})
     echo new instance is ready
 fi
 
-#get the public dns name as we will need this for deployment
+#get the public dns name as we will need this for deployment phase
 PUBLIC_DNS_NAME=$(${aws} ec2 describe-instances --instance-ids ${instanceId} --query 'Reservations[].Instances[].PublicDnsName' --output text)
 echo Public dns name is ${PUBLIC_DNS_NAME}
 
-#deploy to ec2 and spin up the container
+#deploy to the newly created ec2 instance and spin up the container
 ${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} ${IMAGE_NAME} ${LAST_SUCCESSFUL_BUILD_ID} ${BUILD_NUMBER} ${PUBLIC_DNS_NAME} ${EC2_PEM_KEY}
 
