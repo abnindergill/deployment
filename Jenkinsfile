@@ -1,10 +1,11 @@
 properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '3']]])
+def ec2_pem_key_path=/Users/abninder/aws_credentials/HelloWorld.pem
+
 node{
     def mvn_home
     def docker
     def imageName
     def lastSuccessfulBuildID
-    def ec2_pem_key_path=/Users/abninder/aws_credentials/HelloWorld.pem
     def publicDns;
 
     //get last successful build number so that we can terminate
