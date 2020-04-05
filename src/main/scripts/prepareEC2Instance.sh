@@ -7,7 +7,7 @@ BUILD_NUMBER="$4"
 
 PEM_KEY_NAME=thisisanfield
 SECURITY_GROUP_NAME=MySecurityGroup
-PUBLIC_DNS
+PUBLIC_DNS=""
 
 aws=/usr/local/bin/aws
 
