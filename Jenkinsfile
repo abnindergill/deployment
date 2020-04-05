@@ -60,6 +60,6 @@ node{
 
     stage('prepare ec2 instance and deploy'){
         sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
-        sh "source ${WORKSPACE}/target/scripts/prepareEC2Instance.sh ${WORKSPACE}/target/scripts ${imageName} ${lastSuccessfulBuildID} ${BUILD_NUMBER}"
+        sh "${WORKSPACE}/target/scripts/prepareEC2Instance.sh ${WORKSPACE}/target/scripts ${imageName} ${lastSuccessfulBuildID} ${BUILD_NUMBER}"
     }
 }
