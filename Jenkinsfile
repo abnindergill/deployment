@@ -4,6 +4,8 @@ node{
     def docker
     def imageName
     def lastSuccessfulBuildID
+    def ec2_pem_key_path=/Users/abninder/aws_credentials/HelloWorld.pem
+    def publicDns;
 
     //get last successful build number so that we can terminate
     //the docker container running for the image associated with that build tag
@@ -52,8 +54,13 @@ node{
         sh "docker push ${imageName}:${BUILD_NUMBER}"
     }
 
-    stage('deploy to ec2 instance'){
-            sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
-            sh "${WORKSPACE}/target/scripts/ec2-create-instance.sh ${WORKSPACE} ${imageName} ${lastSuccessfulBuildID} ${BUILD_NUMBER}"
+    stage('prepare ec2 instance'){
+        sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
+        sh publicDns=$("${WORKSPACE}/target/scripts/prepareEC2Instance.sh ${ec2_pem_key_path}")
+        sh echo ec2 instance: ${publicDns}
+    }
+
+    stage ('deploy to ec2') {
+        sh "chmod 777 ${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} ${imageName} ${lastSuccessfulBuildID} ${BUILD_NUMBER} ${publicDns} ${ec2_pem_key_path}"
     }
 }
