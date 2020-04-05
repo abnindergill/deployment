@@ -34,12 +34,15 @@ if [ -z "${securityGroupFound}" ]; then
     ${aws} ec2 authorize-security-group-ingress --group-id ${securityGroupId} --protocol tcp --port 22  --cidr 0.0.0.0/0 --region ${region}
     echo "enabled ssh for security group: ${securityGroup} on port 22"
 
-    #open port 80 for http requests
-    ${aws} ec2 authorize-security-group-ingress  --group-name MySecurityGroup --protocol tcp  --port 80 --cidr 0.0.0.0/0 --region ${region}
-    echo "enabled http for security group: ${securityGroup} on port 8080"
+    ${aws} ec2 authorize-security-group-ingress --group-id ${securityGroupId} --protocol all --port -1  --cidr 0.0.0.0/0 --region ${region}
+    echo "enabled all traffic for security group: ${securityGroup}"
 
-    ${aws} ec2 authorize-security-group-ingress  --group-name MySecurityGroup --protocol tcp  --port 8080 --cidr 0.0.0.0/0 --region ${region}
-    echo "enabled http for security group: ${securityGroup} on port 80"
+    #open port 80 for http requests
+    #${aws} ec2 authorize-security-group-ingress  --group-name MySecurityGroup --protocol tcp  --port 80 --cidr 0.0.0.0/0 --region ${region}
+   # echo "enabled http for security group: ${securityGroup} on port 8080"
+
+    #${aws} ec2 authorize-security-group-ingress  --group-name MySecurityGroup --protocol tcp  --port 8080 --cidr 0.0.0.0/0 --region ${region}
+    #echo "enabled http for security group: ${securityGroup} on port 80"
 fi
 
 securityGroupId=$(${aws} ec2 describe-security-groups --group-names ${securityGroup} --query 'SecurityGroups[*].[GroupId]' --output text)
