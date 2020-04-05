@@ -19,7 +19,7 @@ echo public ec2 dns is: ${EC2_PUBLIC_DNS}
 PEM_KEY="$6"
 echo pem key path is: ${PEM_KEY}
 
-SCRIPTS_SRC_PATH="${WORKSPACE}/target/scripts/docker*.sh"
+SCRIPTS_SRC_PATH="${WORKSPACE}/docker*.sh"
 SCRIPTS_DESTINATION_FOLDER="/home/ec2-user/scripts"
 
 DOCKER_CONTAINER_STARTUP_CMD="sudo docker run -p 8082:8085 -e LISTEN_PORT=8085 ${IMAGE_NAME}:${BUILD_NUMBER}"
