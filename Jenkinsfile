@@ -1,5 +1,4 @@
 properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '3']]])
-def ec2_pem_key_path=/Users/abninder/aws_credentials/HelloWorld.pem
 
 node{
     def mvn_home
@@ -7,6 +6,10 @@ node{
     def imageName
     def lastSuccessfulBuildID
     def publicDns;
+
+    environment {
+        ec2_pem_key_path = "/Users/abninder/aws_credentials/HelloWorld.pem"
+    }
 
     //get last successful build number so that we can terminate
     //the docker container running for the image associated with that build tag
