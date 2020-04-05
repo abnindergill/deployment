@@ -58,6 +58,13 @@ fi
 #check if there are any running ec2 instances
 instanceId=$(${aws} ec2 describe-instances  --filters "Name=instance-state-name,Values=running" --query 'Reservations[*].Instances[*].{Instance:InstanceId}' --output text)
 if [ -z "${instanceId}" ]; then
+
+    known_hosts="~/.ssh/known_hosts"
+
+    if [ -f known_hosts ] ; then
+      rm known_hosts
+    fi
+
     #create a new ec2 instance
     instancesInfo=$(${aws} ec2 run-instances --image-id ${amiId} --count 1 --instance-type t2.micro --key-name ${keyName} --security-groups ${securityGroup} --output json)
 
