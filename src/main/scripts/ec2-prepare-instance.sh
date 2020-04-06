@@ -19,6 +19,7 @@ if [[ $instanceId ]]; then
    echo instance id is: ${instanceId}
    EC2_PUBLIC_DNS=$(${aws} ec2 describe-instances --instance-ids ${instanceId} --query 'Reservations[].Instances[].PublicDnsName' --output text)
 else
+
    securityGroupId=$(${WORKSPACE}/configureSecurityGroup.sh ${aws} ${SECURITY_GROUP_NAME})
    echo security group id is: ${securityGroupId}
 
@@ -32,9 +33,6 @@ else
    echo preparing new instance and waiting for it to be ready ...
    EC2_PUBLIC_DNS=$(${WORKSPACE}/createNewEc2Instance.sh ${aws} ${PEM_KEY_NAME} ${SECURITY_GROUP_NAME} ${region})
 fi
-
- securityGroupId=$(${WORKSPACE}/configureSecurityGroup.sh ${aws} ${SECURITY_GROUP_NAME})
- echo security group id is: ${securityGroupId}
 
 export WORKSPACE
 export IMAGE_NAME
