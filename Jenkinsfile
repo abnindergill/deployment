@@ -1,1 +1,1 @@
-${WORKSPACE}/target/scripts/groovy-scripts/buildAndDeploy()
+${WORKSPACE}/target/scripts/groovy-scripts/buildAndDeploy
