@@ -24,13 +24,12 @@ node {
             }
         }
     }
-    stage('Initialize')
-            {
-                docker = tool 'docker'
-                mvn_home = tool 'maven'
-                imageName = "abninder/hello-world-image"
-                env.PATH = "${docker}/bin:${mvn_home}/bin:${env.PATH}"
-            }
+    stage('Initialize') {
+        docker = tool 'docker'
+        mvn_home = tool 'maven'
+        imageName = "abninder/hello-world-image"
+        env.PATH = "${docker}/bin:${mvn_home}/bin:${env.PATH}"
+    }
 
     //check out deployment project
     stage('SCM Checkout') {
@@ -57,8 +56,7 @@ node {
 
     stage('prepare ec2 instance and deploy') {
         sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
-        sh "source ${WORKSPACE}/target/scripts/ec2-prepare-instance.sh ${WORKSPACE}/target/scripts ${imageName} ${lastSuccessfulBuildID} ${BUILD_NUMBER}"
-        def publicDns=${EC2_PUBLIC_DNS}
+        def publicDns=${WORKSPACE}/target/scripts/ec2-prepare-instance.sh ${WORKSPACE}/target/scripts ${imageName} ${lastSuccessfulBuildID} ${BUILD_NUMBER}
         sh "echo publicDns = ${publicDns}"
     }
 }
