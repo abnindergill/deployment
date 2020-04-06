@@ -12,10 +12,6 @@ SCRIPTS_DESTINATION_FOLDER="/home/ec2-user/scripts"
 
 DOCKER_CONTAINER_STARTUP_CMD="sudo docker run -p 8082:8085 -e LISTEN_PORT=8085 ${IMAGE_NAME}:${BUILD_NUMBER}"
 
-# Remove the old key(s) from known_hosts
-ssh-keygen -R ${PUBLIC_DNS}
-
-# Add the new key(s) to known_hosts (and also hash the hostname/address)
 ssh-keyscan -H ${PUBLIC_DNS} >> ~/.ssh/known_hosts
 
 echo creating directory ${SCRIPTS_DESTINATION_FOLDER} on ${EC2_PUBLIC_DNS} if it doesnt exist
