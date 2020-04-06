@@ -15,7 +15,7 @@ DOCKER_CONTAINER_STARTUP_CMD="sudo docker run -p 8082:8085 -e LISTEN_PORT=8085 $
 # Remove the old key(s) from known_hosts
 ssh-keygen -R ${PUBLIC_DNS}
 
-# Add the new host’s key(s) to known_hosts and hash the hostname or IP address
+# Add the new key(s) to known_hosts (and also hash the hostname/address)
 ssh-keyscan -H ${PUBLIC_DNS} >> ~/.ssh/known_hosts
 
 echo creating directory ${SCRIPTS_DESTINATION_FOLDER} on ${EC2_PUBLIC_DNS} if it doesnt exist
