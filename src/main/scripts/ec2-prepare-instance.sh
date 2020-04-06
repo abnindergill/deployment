@@ -33,6 +33,9 @@ else
    PUBLIC_DNS=$(${WORKSPACE}/createNewEc2Instance.sh ${aws} ${PEM_KEY_NAME} ${SECURITY_GROUP_NAME} ${region})
 fi
 
+ securityGroupId=$(${WORKSPACE}/configureSecurityGroup.sh ${aws} ${SECURITY_GROUP_NAME})
+ echo security group id is: ${securityGroupId}
+
 export WORKSPACE
 export IMAGE_NAME
 export LAST_SUCCESSFUL_BUILD
