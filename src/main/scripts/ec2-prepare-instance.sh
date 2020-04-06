@@ -28,6 +28,8 @@ else
    ${WORKSPACE}/authoriseSecurityGroups.sh ${aws} ${securityGroupId} ${region}
 
    ${WORKSPACE}/createPemKey.sh ${aws} ${EC2_PEM_KEY_PATH} ${PEM_KEY_NAME}
+
+   echo preparing new instance and waiting for it to be ready ...
    PUBLIC_DNS=$(${WORKSPACE}/createNewEc2Instance.sh ${aws} ${PEM_KEY_NAME} ${SECURITY_GROUP_NAME} ${region})
 fi
 
