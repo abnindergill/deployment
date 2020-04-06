@@ -8,5 +8,3 @@ if [ -z "${securityGroupFound}" ]; then
     ${aws} ec2 create-security-group --group-name ${security_group_name} --description "My security group"
 fi
 
-securityGroupId=$(${aws} ec2 describe-security-groups --group-names ${security_group_name} --query 'SecurityGroups[*].[GroupId]' --output text)
-echo ${securityGroupId}

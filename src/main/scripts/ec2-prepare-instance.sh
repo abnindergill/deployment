@@ -20,7 +20,8 @@ if [[ $instanceId ]]; then
    EC2_PUBLIC_DNS=$(${aws} ec2 describe-instances --instance-ids ${instanceId} --query 'Reservations[].Instances[].PublicDnsName' --output text)
 else
 
-   securityGroupId=$(${WORKSPACE}/configureSecurityGroup.sh ${aws} ${SECURITY_GROUP_NAME})
+   ${WORKSPACE}/configureSecurityGroup.sh ${aws} ${SECURITY_GROUP_NAME}
+   securityGroupId=$(${aws} ec2 describe-security-groups --group-names ${SECURITY_GROUP_NAME} --query 'SecurityGroups[*].[GroupId]' --output text)
    echo security group id is: ${securityGroupId}
 
    region=$(${aws} configure get region)
