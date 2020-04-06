@@ -8,7 +8,7 @@ BUILD_NUMBER="$4"
 PEM_KEY_NAME=thisisanfield
 SECURITY_GROUP_NAME=MySecurityGroup
 EC2_PEM_KEY_PATH=/Users/abninder/aws_credentials/HelloWorld.pem
-PUBLIC_DNS=""
+EC2_PUBLIC_DNS=""
 
 aws=/usr/local/bin/aws
 
@@ -17,7 +17,7 @@ instanceId=$(${WORKSPACE}/checkRunningEc2Instances.sh ${aws})
 
 if [[ $instanceId ]]; then
    echo instance id is: ${instanceId}
-   PUBLIC_DNS=$(${aws} ec2 describe-instances --instance-ids ${instanceId} --query 'Reservations[].Instances[].PublicDnsName' --output text)
+   EC2_PUBLIC_DNS=$(${aws} ec2 describe-instances --instance-ids ${instanceId} --query 'Reservations[].Instances[].PublicDnsName' --output text)
 else
    securityGroupId=$(${WORKSPACE}/configureSecurityGroup.sh ${aws} ${SECURITY_GROUP_NAME})
    echo security group id is: ${securityGroupId}
@@ -30,7 +30,7 @@ else
    ${WORKSPACE}/createPemKey.sh ${aws} ${EC2_PEM_KEY_PATH} ${PEM_KEY_NAME}
 
    echo preparing new instance and waiting for it to be ready ...
-   PUBLIC_DNS=$(${WORKSPACE}/createNewEc2Instance.sh ${aws} ${PEM_KEY_NAME} ${SECURITY_GROUP_NAME} ${region})
+   EC2_PUBLIC_DNS=$(${WORKSPACE}/createNewEc2Instance.sh ${aws} ${PEM_KEY_NAME} ${SECURITY_GROUP_NAME} ${region})
 fi
 
  securityGroupId=$(${WORKSPACE}/configureSecurityGroup.sh ${aws} ${SECURITY_GROUP_NAME})
@@ -40,7 +40,7 @@ export WORKSPACE
 export IMAGE_NAME
 export LAST_SUCCESSFUL_BUILD
 export BUILD_NUMBER
-export PUBLIC_DNS
+export EC2_PUBLIC_DNS
 export EC2_PEM_KEY_PATH
 
 ${WORKSPACE}/ec2-deployment.sh
