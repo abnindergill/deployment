@@ -1,8 +1,10 @@
+#!/usr/local/bin/groovy
+
 def call() {
 
     properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '3']]])
 
-    node {
+    pipeline {
         def mvn_home
         def docker
         def imageName
