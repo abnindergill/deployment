@@ -4,7 +4,7 @@ def call() {
 
     properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '3']]])
 
-    pipeline {
+    node {
         def mvn_home
         def docker
         def imageName
