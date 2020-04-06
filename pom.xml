@@ -100,6 +100,25 @@
                                 </resources>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>copy groovy scripts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/scripts/groovy-scripts</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/src/main/scripts/groovy-scripts</directory>
+                                    <filtering>false</filtering>
+                                    <includes>
+                                        <include>*.*</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
