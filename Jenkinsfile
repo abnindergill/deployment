@@ -48,16 +48,17 @@ node {
     }
 
     //login into docker hub and push the built image to docker hub with image tag
-    stage('Push image')
-            {
-                withCredentials([string(credentialsId: 'dockerLog', variable: 'DockerHubLogin')]) {
-                    sh "docker login -u abninder -p ${DockerHubLogin}"
-                }
-                sh "docker push ${imageName}:${BUILD_NUMBER}"
-            }
+    stage('Push image') {
+        withCredentials([string(credentialsId: 'dockerLog', variable: 'DockerHubLogin')]) {
+            sh "docker login -u abninder -p ${DockerHubLogin}"
+        }
+        sh "docker push ${imageName}:${BUILD_NUMBER}"
+    }
 
     stage('prepare ec2 instance and deploy') {
         sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
-        sh "${WORKSPACE}/target/scripts/ec2-prepare-instance.sh ${WORKSPACE}/target/scripts ${imageName} ${lastSuccessfulBuildID} ${BUILD_NUMBER}"
+        sh "source ${WORKSPACE}/target/scripts/ec2-prepare-instance.sh ${WORKSPACE}/target/scripts ${imageName} ${lastSuccessfulBuildID} ${BUILD_NUMBER}"
+        def publicDns=${EC2_PUBLIC_DNS}
+        sh "echo publicDns = ${publicDns}"
     }
 }
