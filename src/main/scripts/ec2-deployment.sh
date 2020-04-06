@@ -12,7 +12,9 @@ SCRIPTS_DESTINATION_FOLDER="/home/ec2-user/scripts"
 
 DOCKER_CONTAINER_STARTUP_CMD="sudo docker run -p 8082:8085 -e LISTEN_PORT=8085 ${IMAGE_NAME}:${BUILD_NUMBER}"
 
-ssh -o "StrictHostKeyChecking no" -o PasswordAuthentication=no ${PUBLIC_DNS}
+if ! grep "$(ssh-keyscan ${PUBLIC_DNS} 2>/dev/null)" ~/.ssh/known_hosts > /dev/null; then
+    ssh-keyscan ${PUBLIC_DNS} >> ~/.ssh/known_hosts
+fi
 
 echo creating directory ${SCRIPTS_DESTINATION_FOLDER} on ${EC2_PUBLIC_DNS} if it doesnt exist
 ssh -i ${EC2_PEM_KEY_PATH} "ec2-user@${EC2_PUBLIC_DNS}" mkdir -p ${SCRIPTS_DESTINATION_FOLDER}
