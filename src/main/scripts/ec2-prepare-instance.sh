@@ -33,7 +33,6 @@ fi
 
 export WORKSPACE
 export IMAGE_NAME
-export IMAGE_NAME
 export LAST_SUCCESSFUL_BUILD
 export BUILD_NUMBER
 export PUBLIC_DNS

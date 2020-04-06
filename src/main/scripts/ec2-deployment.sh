@@ -1,5 +1,12 @@
 #!/bin/bash
 
+echo workspace is ${WORKSPACE}
+echo image name is ${IMAGE_NAME}
+echo last successful build is ${LAST_SUCCESSFUL_BUILD}
+echo build number is ${BUILD_NUMBER}
+echo public dns is ${PUBLIC_DNS}
+echo pem key path is ${EC2_PEM_KEY_PATH}
+
 SCRIPTS_SRC_PATH="${WORKSPACE}/docker*.sh"
 SCRIPTS_DESTINATION_FOLDER="/home/ec2-user/scripts"
 
