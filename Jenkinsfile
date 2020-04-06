@@ -56,7 +56,6 @@ node {
 
     stage('prepare ec2 instance and deploy') {
         sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
-        def instanceId=${WORKSPACE}/target/scripts/ec2-prepare-instance.sh ${WORKSPACE}/target/scripts ${imageName} ${lastSuccessfulBuildID} ${BUILD_NUMBER}
-        sh "echo instance id[${instanceId}]"
+        ${WORKSPACE}/target/scripts/ec2-prepare-instance.sh ${WORKSPACE}/target/scripts ${imageName} ${lastSuccessfulBuildID} ${BUILD_NUMBER}
     }
 }
