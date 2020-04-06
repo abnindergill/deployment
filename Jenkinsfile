@@ -5,7 +5,6 @@ node{
     def docker
     def imageName
     def lastSuccessfulBuildID
-    def publicDns;
 
     environment {
         ec2_pem_key_path = "/Users/abninder/aws_credentials/HelloWorld.pem"
