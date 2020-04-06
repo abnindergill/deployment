@@ -20,7 +20,7 @@ else
    echo region is: ${region}
 
    # shellcheck disable=SC2034
-   security_group_id=$(./authoriseSecurityGroups.sh ${aws} ${securityGroupId} ${region})
+   security_group_id=$(./authoriseSecurityGroup.sh ${aws} ${securityGroupId} ${region})
    ./createPemKey.sh ${aws} ${EC2_PEM_KEY_PATH} ${PEM_KEY_NAME}
 
    echo waiting for new ec2 instance to be ready ...

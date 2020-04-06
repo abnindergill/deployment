@@ -27,7 +27,7 @@ else
    region=$(${aws} configure get region)
    echo region is: ${region}
 
-   ${WORKSPACE}/authoriseSecurityGroups.sh ${aws} ${securityGroupId} ${region}
+   ${WORKSPACE}/authoriseSecurityGroup.sh ${aws} ${securityGroupId} ${region}
 
    ${WORKSPACE}/createPemKey.sh ${aws} ${EC2_PEM_KEY_PATH} ${PEM_KEY_NAME}
 
