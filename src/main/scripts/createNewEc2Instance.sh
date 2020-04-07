@@ -17,3 +17,5 @@ status=$(${aws} ec2 wait --region ${region} instance-status-ok --instance-ids ${
 
 public_dns_name=$(${aws} ec2 describe-instances --instance-ids ${instanceId} --query 'Reservations[].Instances[].PublicDnsName' --output text)
 echo ${public_dns_name}
+
+exit $?

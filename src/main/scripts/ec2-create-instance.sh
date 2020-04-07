@@ -30,5 +30,5 @@ fi
 
 #deploy to the newly created ec2 instance and spin up the container
 ${WORKSPACE}/target/scripts/ec2-deployment.sh ${WORKSPACE} ${IMAGE_NAME} ${LAST_SUCCESSFUL_BUILD_ID} ${BUILD_NUMBER} ${PUBLIC_DNS_NAME} ${EC2_PEM_KEY}
-
+exit $?
 

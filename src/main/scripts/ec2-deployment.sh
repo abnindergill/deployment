@@ -22,3 +22,5 @@ ssh -i ${EC2_PEM_KEY_PATH} "ec2-user@${EC2_PUBLIC_DNS}" ${SCRIPTS_DESTINATION_FO
 
 #start the container for image with the passed in tag build number
 ssh -i ${EC2_PEM_KEY_PATH} "ec2-user@${EC2_PUBLIC_DNS}" ${DOCKER_CONTAINER_STARTUP_CMD}
+
+exit $?

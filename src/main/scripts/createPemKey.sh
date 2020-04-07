@@ -10,3 +10,5 @@ if [ -z "${keyPairName}" ]; then
     echo created pem key for key name: ${pem_key_name} in path: ${pem_key_path}
     chmod 400 ${pem_key_path}
 fi
+
+exit $?
