@@ -56,16 +56,19 @@ node {
 
     stage('prepare ec2 instance and deploy') {
         sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
-        try
-        {
-            sh "${WORKSPACE}/target/scripts/ec2-prepare-instance.sh ${WORKSPACE}/target/scripts ${imageName} " +
-                    "${lastSuccessfulBuildID} ${BUILD_NUMBER}"
+
+        sh "${WORKSPACE}/target/scripts/ec2-prepare-instance.sh ${WORKSPACE}/target/scripts ${imageName} " +
+                "${lastSuccessfulBuildID} ${BUILD_NUMBER}"
+        currentBuild.result = 'SUCCESS'
+    }
+
+    post {
+        success {
             currentBuild.result = 'SUCCESS'
         }
-        catch (Exception err) {
+        failure {
             currentBuild.result = 'FAILURE'
-            sh echo 'Err: Incremental Build failed with Error: ' + err.toString()
         }
-        echo "RESULT: ${currentBuild.result}"
     }
+    echo "RESULT: ${currentBuild.result}"
 }
