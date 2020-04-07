@@ -1,3 +1,4 @@
+#!/bin/bash -xe
 properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '3']]])
 
 node {
@@ -8,6 +9,7 @@ node {
 
     environment {
         ec2_pem_key_path = "/Users/abninder/aws_credentials/HelloWorld.pem"
+        status
     }
 
     //get last successful build number so that we can terminate
@@ -59,15 +61,18 @@ node {
 
         sh "${WORKSPACE}/target/scripts/ec2-prepare-instance.sh ${WORKSPACE}/target/scripts ${imageName} " +
                 "${lastSuccessfulBuildID} ${BUILD_NUMBER}"
-    }
 
-    post {
-        success {
-            currentBuild.result = 'SUCCESS'
-        }
-        failure {
-            currentBuild.result = 'FAILURE'
+        stage('prepare ec2 instance and deploy') {
+
+            "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
+            def status = sh(script: "${WORKSPACE}/target/scripts/ec2-prepare-instance.sh ${WORKSPACE}/target/scripts ${imageName} " +
+                            "${lastSuccessfulBuildID} ${BUILD_NUMBER}", returnStatus: true)
+            if (status == 0) {
+                currentBuild.result = 'SUCCESS'
+            } else {
+                currentBuild.result = 'FAILED'
+            }
+            return ${currentBuild.result}
         }
     }
-    echo "RESULT: ${currentBuild.result}"
 }

@@ -43,5 +43,5 @@ export EC2_PUBLIC_DNS
 export EC2_PEM_KEY_PATH
 
 ${WORKSPACE}/ec2-deployment.sh
-exit ${instanceId}
+exit $?
 
