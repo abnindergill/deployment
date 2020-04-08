@@ -67,7 +67,7 @@ node {
             "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
             def status = sh(script: "${WORKSPACE}/target/scripts/ec2-prepare-instance.sh ${WORKSPACE}/target/scripts ${imageName} " +
                             "${lastSuccessfulBuildID} ${BUILD_NUMBER}", returnStatus: true)
-            if (status == 0) {
+            if (${status} == 0) {
                 currentBuild.result = 'SUCCESS'
             } else {
                 currentBuild.result = 'FAILED'
