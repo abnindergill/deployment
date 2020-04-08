@@ -3,7 +3,7 @@
 SCRIPTS_SRC_PATH="${WORKSPACE}/docker*.sh"
 SCRIPTS_DESTINATION_FOLDER="/home/ec2-user/scripts"
 
-DOCKER_CONTAINER_STARTUP_CMD="sudo docker run -p 8082:8085 -e LISTEN_PORT=8085 ${IMAGE_NAME}:${BUILD_NUMBER}"
+DOCKER_CONTAINER_STARTUP_CMD="sudo docker run -d -p 8082:8085 -e LISTEN_PORT=8085 ${IMAGE_NAME}:${BUILD_NUMBER}"
 
 ssh-keyscan -H ${EC2_PUBLIC_DNS} >> ~/.ssh/known_hosts
 
