@@ -45,7 +45,7 @@ node {
 
     //build the docker image tagging it with the jenkins build number
     stage('Build image') {
-        sh "docker build -t ${imageName}:${BUILD_NUMBER} ${WORKSPACE} "
+        sh "docker build -t ${imageName}:${BUILD_NUMBER} -f ${WORKSPACE}/docker-file"
     }
 
     //login into docker hub and push the built image to docker hub with image tag
