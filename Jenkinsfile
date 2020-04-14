@@ -58,16 +58,8 @@ node {
 
     stage('prepare ec2 instance and deploy') {
         sh "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
-
-        sh "${WORKSPACE}/target/scripts/ec2-prepare-instance.sh ${WORKSPACE}/target/scripts ${imageName} " +
-                "${lastSuccessfulBuildID} ${BUILD_NUMBER}"
-
-        stage('prepare ec2 instance and deploy') {
-
-            "chmod 777 ${WORKSPACE}/target/scripts/*.sh"
-            sh(script: "${WORKSPACE}/target/scripts/ec2-prepare-instance.sh ${WORKSPACE}/target/scripts ${imageName} " +
+        sh(script: "${WORKSPACE}/target/scripts/ec2-prepare-instance.sh ${WORKSPACE}/target/scripts ${imageName} " +
                             "${lastSuccessfulBuildID} ${BUILD_NUMBER}", returnStatus: true)
 
-        }
     }
 }
