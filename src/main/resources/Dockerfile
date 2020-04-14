@@ -1,5 +1,6 @@
 FROM openjdk:8-jre-alpine
 
+MAINTAINER Abninder gill
 ENV TARGET_DIR="/build"
 RUN mkdir -p ${TARGET_DIR}
 ADD target/api/application.yml ${TARGET_DIR}
